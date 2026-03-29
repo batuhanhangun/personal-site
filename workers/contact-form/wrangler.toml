@@ -11,15 +11,17 @@ compatibility_date = "2026-03-29"
 #   npx wrangler kv namespace create CONTACT_RL --preview
 [[kv_namespaces]]
 binding    = "CONTACT_RL"
-id         = "REPLACE_WITH_KV_NAMESPACE_ID"
+id         = "71918863fd904e3d9f79d957c170010f"
 preview_id = "REPLACE_WITH_KV_PREVIEW_NAMESPACE_ID"
 
 # ── Secrets ───────────────────────────────────────────────────────────────────
 # Set before deploying:
 #
 #   npx wrangler secret put TURNSTILE_SECRET_KEY
+#   npx wrangler secret put RESEND_API_KEY
+#   npx wrangler secret put ADMIN_TOKEN
 #
-# This is NOT committed — it lives only in the Cloudflare dashboard.
+# These are NOT committed — they live only in the Cloudflare dashboard.
 
 # ── Dev environment overrides ─────────────────────────────────────────────────
 [env.dev]

@@ -1,23 +1,31 @@
 /**
  * Contact Form Worker
  *
- * Accepts POST /api/contact, verifies Turnstile, rate-limits by IP,
- * validates inputs, then sends email via MailChannels.
+ * POST /api/contact  — verify Turnstile, rate-limit, save to KV, notify via Resend
+ * GET  /api/messages — admin endpoint; returns all stored messages (bearer token required)
  */
 
 export interface Env {
-  CONTACT_RL: KVNamespace;
+  CONTACT_RL:          KVNamespace;
   TURNSTILE_SECRET_KEY: string;
+  RESEND_API_KEY:      string;
+  ADMIN_TOKEN:         string;
+}
+
+interface StoredMessage {
+  name:         string;
+  email:        string;
+  message:      string;
+  submitted_at: string;
+  ip:           string;
 }
 
 // ── Config ────────────────────────────────────────────────────────────────────
 
-const ALLOWED_ORIGINS  = new Set(['https://batuhanhangun.com', 'https://www.batuhanhangun.com']);
-const TO_ADDRESS       = 'batuhan@batuhanhangun.com';
-const FROM_ADDRESS     = 'noreply@batuhanhangun.com';
-const FROM_NAME        = 'Contact Form';
-const RATE_LIMIT_MAX   = 5;   // submissions per window
-const RATE_LIMIT_TTL   = 3600; // seconds (1 hour)
+const ALLOWED_ORIGINS = new Set(['https://batuhanhangun.com', 'https://www.batuhanhangun.com']);
+const TO_ADDRESS      = 'batuhan@batuhanhangun.com';
+const RATE_LIMIT_MAX  = 5;    // submissions per window
+const RATE_LIMIT_TTL  = 3600; // seconds (1 hour)
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -37,7 +45,6 @@ function corsHeaders(origin: string): Record<string, string> {
   };
 }
 
-/** Remove any HTML tags from a string. */
 function stripHtml(s: string): string {
   return s.replace(/<[^>]*>/g, '');
 }
@@ -45,12 +52,8 @@ function stripHtml(s: string): string {
 // ── Turnstile verification ────────────────────────────────────────────────────
 
 async function verifyTurnstile(token: string, secret: string, ip: string): Promise<boolean> {
-  const body = new URLSearchParams({
-    secret,
-    response:   token,
-    remoteip:   ip,
-  });
-  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+  const body = new URLSearchParams({ secret, response: token, remoteip: ip });
+  const res  = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
     method:  'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body,
@@ -59,56 +62,102 @@ async function verifyTurnstile(token: string, secret: string, ip: string): Promi
   return data.success === true;
 }
 
-// ── Rate limiting (KV-backed sliding counter) ─────────────────────────────────
+// ── Rate limiting ─────────────────────────────────────────────────────────────
 
 async function checkRateLimit(kv: KVNamespace, ip: string): Promise<boolean> {
-  const key      = `rl:${ip}`;
-  const raw      = await kv.get(key);
-  const count    = raw ? parseInt(raw, 10) : 0;
+  const key   = `rl:${ip}`;
+  const raw   = await kv.get(key);
+  const count = raw ? parseInt(raw, 10) : 0;
 
   if (count >= RATE_LIMIT_MAX) return false;
 
-  // Increment; set TTL only on the first hit so the window resets naturally
   await kv.put(key, String(count + 1), {
     expirationTtl: count === 0 ? RATE_LIMIT_TTL : undefined,
   });
   return true;
 }
 
-// ── MailChannels send ─────────────────────────────────────────────────────────
+// ── KV storage ────────────────────────────────────────────────────────────────
 
-async function sendEmail(name: string, email: string, message: string): Promise<void> {
-  const subject  = `[batuhanhangun.com] New message from ${name}`;
-  const textBody =
-    `Name:    ${name}\n` +
-    `Email:   ${email}\n` +
+async function storeMessage(kv: KVNamespace, msg: StoredMessage): Promise<void> {
+  const key = `msg:${Date.now()}`;
+  await kv.put(key, JSON.stringify(msg));
+}
+
+// ── Resend notification ───────────────────────────────────────────────────────
+
+async function sendResendNotification(
+  apiKey: string,
+  msg: StoredMessage,
+): Promise<void> {
+  const text =
+    `Name:    ${msg.name}\n` +
+    `Email:   ${msg.email}\n` +
     `\n` +
-    `${message}\n`;
+    `${msg.message}\n`;
 
-  const payload = {
-    personalizations: [{ to: [{ email: TO_ADDRESS }] }],
-    from:             { email: FROM_ADDRESS, name: FROM_NAME },
-    reply_to:         { email, name },
-    subject,
-    content: [{ type: 'text/plain', value: textBody }],
-  };
-
-  const res = await fetch('https://api.mailchannels.net/tx/v1/send', {
+  const res = await fetch('https://api.resend.com/emails', {
     method:  'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify(payload),
+    headers: {
+      'Content-Type':  'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      from:    'Contact Form <onboarding@resend.dev>',
+      to:      [TO_ADDRESS],
+      reply_to: msg.email,
+      subject: `[batuhanhangun.com] Message from ${msg.name}`,
+      text,
+    }),
   });
 
-  if (res.status !== 202) {
+  if (!res.ok) {
     const detail = await res.text();
-    throw new Error(`MailChannels error ${res.status}: ${detail}`);
+    throw new Error(`Resend error ${res.status}: ${detail}`);
   }
+}
+
+// ── Admin: list messages ──────────────────────────────────────────────────────
+
+async function handleGetMessages(request: Request, env: Env): Promise<Response> {
+  const auth  = request.headers.get('Authorization') ?? '';
+  const token = auth.startsWith('Bearer ') ? auth.slice(7) : '';
+
+  if (!env.ADMIN_TOKEN || token !== env.ADMIN_TOKEN) {
+    return new Response(JSON.stringify({ success: false, message: 'Unauthorized' }), {
+      status:  401,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  const list = await env.CONTACT_RL.list({ prefix: 'msg:' });
+  const messages = await Promise.all(
+    list.keys.map(async ({ name }) => {
+      const raw = await env.CONTACT_RL.get(name);
+      return { key: name, ...(raw ? JSON.parse(raw) as StoredMessage : {}) };
+    }),
+  );
+
+  // newest first
+  messages.sort((a, b) => b.key.localeCompare(a.key));
+
+  return new Response(JSON.stringify({ success: true, messages }), {
+    status:  200,
+    headers: { 'Content-Type': 'application/json' },
+  });
 }
 
 // ── Main handler ──────────────────────────────────────────────────────────────
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
+    const { pathname } = new URL(request.url);
+
+    // Admin endpoint — no CORS, bearer-token only
+    if (pathname === '/api/messages' && request.method === 'GET') {
+      return handleGetMessages(request, env);
+    }
+
     const origin  = request.headers.get('Origin') ?? '';
     const allowed = ALLOWED_ORIGINS.has(origin);
     const cors    = corsHeaders(allowed ? origin : '');
@@ -119,7 +168,10 @@ export default {
       return new Response(null, { status: 204, headers: cors });
     }
 
-    // Only accept POST from an allowed origin
+    if (pathname !== '/api/contact') {
+      return json({ success: false, message: 'Not found' }, 404, cors);
+    }
+
     if (request.method !== 'POST') {
       return json({ success: false, message: 'Method not allowed' }, 405, cors);
     }
@@ -146,12 +198,10 @@ export default {
     const email   = rawEmail.trim().slice(0, 200);
     const message = stripHtml(rawMessage.trim()).slice(0, 5000);
 
-    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
     if (!name || !email || !message || !token) {
       return json({ success: false, message: 'Invalid input' }, 400, cors);
     }
-    if (!emailRe.test(email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return json({ success: false, message: 'Invalid input' }, 400, cors);
     }
 
@@ -168,12 +218,21 @@ export default {
       return json({ success: false, message: 'Too many requests' }, 429, cors);
     }
 
-    // ── Send email ───────────────────────────────────────────────────────────
-    try {
-      await sendEmail(name, email, message);
-    } catch (err) {
-      console.error('sendEmail failed:', err);
-      return json({ success: false, message: 'Failed to send message' }, 500, cors);
+    // ── Store in KV (primary — must not fail) ─────────────────────────────────
+    const stored: StoredMessage = {
+      name, email, message,
+      submitted_at: new Date().toISOString(),
+      ip,
+    };
+    await storeMessage(env.CONTACT_RL, stored);
+
+    // ── Notify via Resend (best-effort — message already saved) ──────────────
+    if (env.RESEND_API_KEY) {
+      try {
+        await sendResendNotification(env.RESEND_API_KEY, stored);
+      } catch (err) {
+        console.error('Resend notification failed (message saved to KV):', err);
+      }
     }
 
     return json({ success: true, message: 'Message sent' }, 200, cors);
