@@ -17,8 +17,8 @@ crons = ["0 8 * * *"]
 #   npx wrangler kv namespace create CITATION_METRICS --preview
 [[kv_namespaces]]
 binding         = "CITATION_METRICS"
-id              = "<KV_NAMESPACE_ID>"
-preview_id      = "<KV_PREVIEW_NAMESPACE_ID>"
+id              = "1b950a1ae205422b9c0a2fce16b3eb50"
+preview_id      = "6868bf691e4543aa832d964ebdfdf2e6"
 
 # ── Secrets ───────────────────────────────────────────────────────────────────
 # Set all three via wrangler CLI before deploying:

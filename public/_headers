@@ -6,7 +6,8 @@
 # inline <script> Astro generates. Never edit that token by hand.
 #
 # BEFORE DEPLOYING: Replace https://*.workers.dev in connect-src with
-# your specific citation-metrics worker URL, e.g.:
+# your specific worker URLs, e.g.:
+#   https://contact-form.<account>.workers.dev
 #   https://citation-metrics.<account>.workers.dev
 
 /*
@@ -33,8 +34,8 @@
   #               <script> blocks (injected post-build); Turnstile widget.
   # style-src:    'unsafe-inline' required for component-level style=""
   #               attributes (animations etc.). Scoped CSS is external.
-  # connect-src:  'self' for /api/contact; *.workers.dev for citation
-  #               metrics Worker (replace with specific URL before deploy).
+  # connect-src:  'self'; *.workers.dev for contact form Worker and citation
+  #               metrics Worker (replace with specific URLs before deploy).
   Content-Security-Policy: default-src 'none'; script-src 'self' __SCRIPT_HASHES__ https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://challenges.cloudflare.com https://*.workers.dev; frame-src https://challenges.cloudflare.com; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests; frame-ancestors 'none'
 
 # ── Static assets — allow long-lived caching ───────────────────────────────

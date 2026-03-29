@@ -4,6 +4,8 @@ import SectionHeading from './SectionHeading.astro';
 
 /* Turnstile site key — safe to expose publicly */
 const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA'; // dummy for dev
+/* Contact Worker URL — falls back to mailto: if not set */
+const CONTACT_FORM_URL = import.meta.env.PUBLIC_CONTACT_FORM_URL ?? '';
 ---
 
 <Section id="contact">
@@ -18,7 +20,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000
     <!-- ── Form ──────────────────────────────────────────────────────────── -->
     <div class="contact-form-wrap">
 
-      <form id="contact-form" class="contact-form" novalidate autocomplete="on">
+      <form id="contact-form" class="contact-form" data-action={CONTACT_FORM_URL} novalidate autocomplete="on">
 
         <!-- Honeypot (hidden from real users) -->
         <div class="hp-field" aria-hidden="true">
@@ -79,11 +81,14 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000
           data-sitekey={TURNSTILE_SITE_KEY}
           data-theme="dark"
           data-appearance="interaction-only"
+          data-callback="onTurnstileVerified"
+          data-expired-callback="onTurnstileExpired"
+          data-error-callback="onTurnstileExpired"
           id="turnstile-widget"
         ></div>
 
         <!-- Submit -->
-        <button type="submit" class="btn-submit" id="submit-btn">
+        <button type="submit" class="btn-submit" id="submit-btn" disabled>
           <span class="btn-text">Send Message</span>
           <span class="btn-spinner" aria-hidden="true"></span>
         </button>
@@ -199,11 +204,19 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000
     }
   })();
 
-  /* ── Form submission ──────────────────────────────────────────────────── */
+  /* ── Turnstile callbacks (must be global for the widget to call them) ── */
   const form      = document.getElementById('contact-form')  as HTMLFormElement;
   const submitBtn = document.getElementById('submit-btn')    as HTMLButtonElement;
   const statusEl  = document.getElementById('form-status')   as HTMLElement;
 
+  (window as any).onTurnstileVerified = function () {
+    submitBtn.disabled = false;
+  };
+  (window as any).onTurnstileExpired = function () {
+    submitBtn.disabled = true;
+  };
+
+  /* ── Form submission ──────────────────────────────────────────────────── */
   function setStatus(msg: string, type: 'success' | 'error' | '') {
     statusEl.textContent = msg;
     statusEl.className   = `form-status${type ? ` form-status--${type}` : ''}`;
@@ -242,12 +255,25 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                    setFieldError('err-email',   'Enter a valid email');  valid = false; }
     if (!message) { setFieldError('err-message', 'Message is required'); valid = false; }
+    if (!token)   { setStatus('Please complete the security check.', 'error'); valid = false; }
     if (!valid) return;
+
+    const actionUrl = form.dataset.action ?? '';
+
+    /* Mailto fallback when no Worker URL is configured */
+    if (!actionUrl) {
+      const addr = [98,97,116,117,104,97,110,64,98,97,116,117,104,97,110,104,97,110,103,117,110,46,99,111,109]
+        .map(c => String.fromCharCode(c)).join('');
+      const subject = encodeURIComponent(`Message from ${name}`);
+      const body    = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+      window.location.href = `mailto:${addr}?subject=${subject}&body=${body}`;
+      return;
+    }
 
     setLoading(true);
 
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch(actionUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, message, website, 'cf-turnstile-response': token }),
@@ -257,7 +283,8 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000
 
       if (json.ok) {
         form.reset();
-        // Reset Turnstile widget
+        // Reset Turnstile widget and re-disable submit until it verifies again
+        submitBtn.disabled = true;
         if (typeof (window as any).turnstile !== 'undefined') {
           (window as any).turnstile.reset('#turnstile-widget');
         }

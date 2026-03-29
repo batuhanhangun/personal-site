@@ -1,0 +1,26 @@
+name             = "contact-form"
+main             = "src/index.ts"
+compatibility_date = "2026-03-29"
+
+# ── KV namespace — rate limiting ──────────────────────────────────────────────
+# Create with:
+#   npx wrangler kv namespace create CONTACT_RL
+# Then replace the id placeholder below with the returned id.
+#
+# Preview namespace (for `wrangler dev`):
+#   npx wrangler kv namespace create CONTACT_RL --preview
+[[kv_namespaces]]
+binding    = "CONTACT_RL"
+id         = "REPLACE_WITH_KV_NAMESPACE_ID"
+preview_id = "REPLACE_WITH_KV_PREVIEW_NAMESPACE_ID"
+
+# ── Secrets ───────────────────────────────────────────────────────────────────
+# Set before deploying:
+#
+#   npx wrangler secret put TURNSTILE_SECRET_KEY
+#
+# This is NOT committed — it lives only in the Cloudflare dashboard.
+
+# ── Dev environment overrides ─────────────────────────────────────────────────
+[env.dev]
+name = "contact-form-dev"
