@@ -2,7 +2,7 @@
 
 /* ─── Design Tokens ───────────────────────────────────────────────────────── */
 @theme {
-  /* Colors — "Warm Academic" palette */
+  /* Colors — "Warm Academic" palette (light-mode defaults) */
   --color-bg:          #ede9e4;
   --color-surface:     #f3f0ea;
   --color-card:        #ffffff;
@@ -18,12 +18,223 @@
   --font-mono:  'JetBrains Mono', monospace;
 }
 
-/* Non-theme custom properties */
+/* ─── Design variables (light mode defaults) ──────────────────────────────── */
 :root {
-  --border-subtle:  rgba(28, 25, 23, 0.09);
-  --border-accent:  rgba(13, 148, 136, 0.3);
-  --glow-teal:      rgba(13, 148, 136, 0.12);
-  --glow-coral:     rgba(249, 115, 22, 0.10);
+  /* Semantic border / glow tokens (referenced by components via var()) */
+  --border-subtle:         rgba(28, 25, 23, 0.09);
+  --border-accent:         rgba(13, 148, 136, 0.3);
+  --glow-teal:             rgba(13, 148, 136, 0.12);
+  --glow-coral:            rgba(249, 115, 22, 0.10);
+
+  /* Surface colors */
+  --c-bg:                  #ede9e4;
+  --c-surface:             #e4e1db;
+  --c-card:                #ffffff;
+  --c-inset:               #ede9e4;
+  --c-input:               #ede9e4;
+  --c-input-focus:         #ffffff;
+
+  /* Text colors */
+  --c-head:                #1c1917;
+  --c-body:                #57534e;
+  --c-muted:               #a8a29e;
+  --c-faint:               #c4bfba;
+
+  /* Teal accent */
+  --c-teal:                #0d9488;
+  --c-teal-text:           #0d7a70;
+  --c-teal-bg:             rgba(13, 148, 136, 0.08);
+  --c-teal-bg-m:           rgba(13, 148, 136, 0.10);
+
+  /* Sage green (conference badges) */
+  --c-sage:                #6b8f71;
+  --c-sage-text:           #4a7051;
+  --c-sage-bg:             rgba(107, 143, 113, 0.08);
+  --c-sage-border:         rgba(107, 143, 113, 0.25);
+
+  /* Border tokens */
+  --c-border-input:        rgba(28, 25, 23, 0.12);
+  --c-border-neut:         rgba(28, 25, 23, 0.08);
+  --c-border-dark:         rgba(28, 25, 23, 0.18);
+  --c-border-teal:         rgba(13, 148, 136, 0.20);
+  --c-border-teal-h:       rgba(13, 148, 136, 0.30);
+  --c-neutral-pill-bg:     rgba(28, 25, 23, 0.03);
+  --c-neutral-pill-border: rgba(28, 25, 23, 0.10);
+  --c-neut-icon-bg:        rgba(28, 25, 23, 0.04);
+  --c-count-bg:            rgba(28, 25, 23, 0.05);
+  --c-count-border:        rgba(28, 25, 23, 0.08);
+
+  /* Focus ring */
+  --c-focus-border:        rgba(13, 148, 136, 0.45);
+  --c-focus-ring:          rgba(13, 148, 136, 0.09);
+
+  /* Shadows */
+  --c-shadow-card:         rgba(28, 25, 23, 0.07);
+  --c-shadow-teal:         rgba(13, 148, 136, 0.08);
+  --c-shadow-photo:        0 4px 24px rgba(28, 25, 23, 0.10), 0 1px 4px rgba(28, 25, 23, 0.06);
+
+  /* Shimmer (loading state) */
+  --c-shimmer-start:       rgba(28, 25, 23, 0.04);
+  --c-shimmer-mid:         rgba(28, 25, 23, 0.10);
+
+  /* Navbar */
+  --c-nav-bg:              rgba(237, 233, 228, 0.88);
+  --c-nav-scrolled:        rgba(237, 233, 228, 0.96);
+  --c-nav-shadow:          rgba(28, 25, 23, 0.06);
+
+  /* Scroll-to-top button */
+  --c-scroll-btn-bg:       rgba(255, 255, 255, 0.92);
+}
+
+/* ─── Dark mode overrides ─────────────────────────────────────────────────── */
+/*
+ * Dark mode activates when EITHER:
+ *   a) OS prefers dark  AND  the user hasn't explicitly chosen light (html:not(.light))
+ *   b) The user explicitly chose dark (html.dark) — set by the theme toggle
+ *
+ * The html.dark / html.light classes are written by an inline <head> script
+ * (reads localStorage) and by the NavBar toggle button.
+ */
+
+@media (prefers-color-scheme: dark) {
+  html:not(.light) {
+    /* Override @theme-generated Tailwind tokens so utilities auto-adapt */
+    --color-bg:      #1c1b19;
+    --color-surface: #161514;
+    --color-card:    #252422;
+    --color-heading: #f0ede8;
+    --color-dim:     #b8b4ae;
+    --color-muted:   #888580;
+    --color-cyan:    #14b8a6;
+
+    /* Semantic tokens */
+    --border-subtle:         rgba(255, 255, 255, 0.08);
+    --border-accent:         rgba(20, 184, 166, 0.35);
+    --glow-teal:             rgba(20, 184, 166, 0.10);
+
+    /* Surface colors */
+    --c-bg:                  #1c1b19;
+    --c-surface:             #161514;
+    --c-card:                #252422;
+    --c-inset:               #2a2926;
+    --c-input:               #2a2926;
+    --c-input-focus:         #333130;
+
+    /* Text colors */
+    --c-head:                #f0ede8;
+    --c-body:                #b8b4ae;
+    --c-muted:               #888580;
+    --c-faint:               #5a5753;
+
+    /* Teal accent */
+    --c-teal:                #14b8a6;
+    --c-teal-text:           #14b8a6;
+    --c-teal-bg:             rgba(20, 184, 166, 0.10);
+    --c-teal-bg-m:           rgba(20, 184, 166, 0.12);
+
+    /* Sage green */
+    --c-sage:                #7ab882;
+    --c-sage-text:           #7ab882;
+    --c-sage-bg:             rgba(122, 184, 130, 0.10);
+    --c-sage-border:         rgba(122, 184, 130, 0.30);
+
+    /* Border tokens */
+    --c-border-input:        rgba(255, 255, 255, 0.11);
+    --c-border-neut:         rgba(255, 255, 255, 0.07);
+    --c-border-dark:         rgba(255, 255, 255, 0.14);
+    --c-border-teal:         rgba(20, 184, 166, 0.25);
+    --c-border-teal-h:       rgba(20, 184, 166, 0.40);
+    --c-neutral-pill-bg:     rgba(255, 255, 255, 0.04);
+    --c-neutral-pill-border: rgba(255, 255, 255, 0.09);
+    --c-neut-icon-bg:        rgba(255, 255, 255, 0.04);
+    --c-count-bg:            rgba(255, 255, 255, 0.05);
+    --c-count-border:        rgba(255, 255, 255, 0.07);
+
+    /* Focus ring */
+    --c-focus-border:        rgba(20, 184, 166, 0.55);
+    --c-focus-ring:          rgba(20, 184, 166, 0.10);
+
+    /* Shadows */
+    --c-shadow-card:         rgba(0, 0, 0, 0.20);
+    --c-shadow-teal:         rgba(20, 184, 166, 0.10);
+    --c-shadow-photo:        0 4px 24px rgba(0, 0, 0, 0.38), 0 1px 4px rgba(0, 0, 0, 0.22);
+
+    /* Shimmer */
+    --c-shimmer-start:       rgba(255, 255, 255, 0.03);
+    --c-shimmer-mid:         rgba(255, 255, 255, 0.07);
+
+    /* Navbar */
+    --c-nav-bg:              rgba(28, 27, 25, 0.92);
+    --c-nav-scrolled:        rgba(28, 27, 25, 0.98);
+    --c-nav-shadow:          rgba(0, 0, 0, 0.20);
+
+    /* Scroll-to-top button */
+    --c-scroll-btn-bg:       rgba(50, 48, 46, 0.95);
+  }
+}
+
+/* User explicitly chose dark via the toggle button */
+html.dark {
+  --color-bg:      #1c1b19;
+  --color-surface: #161514;
+  --color-card:    #252422;
+  --color-heading: #f0ede8;
+  --color-dim:     #b8b4ae;
+  --color-muted:   #888580;
+  --color-cyan:    #14b8a6;
+
+  --border-subtle:         rgba(255, 255, 255, 0.08);
+  --border-accent:         rgba(20, 184, 166, 0.35);
+  --glow-teal:             rgba(20, 184, 166, 0.10);
+
+  --c-bg:                  #1c1b19;
+  --c-surface:             #161514;
+  --c-card:                #252422;
+  --c-inset:               #2a2926;
+  --c-input:               #2a2926;
+  --c-input-focus:         #333130;
+
+  --c-head:                #f0ede8;
+  --c-body:                #b8b4ae;
+  --c-muted:               #888580;
+  --c-faint:               #5a5753;
+
+  --c-teal:                #14b8a6;
+  --c-teal-text:           #14b8a6;
+  --c-teal-bg:             rgba(20, 184, 166, 0.10);
+  --c-teal-bg-m:           rgba(20, 184, 166, 0.12);
+
+  --c-sage:                #7ab882;
+  --c-sage-text:           #7ab882;
+  --c-sage-bg:             rgba(122, 184, 130, 0.10);
+  --c-sage-border:         rgba(122, 184, 130, 0.30);
+
+  --c-border-input:        rgba(255, 255, 255, 0.11);
+  --c-border-neut:         rgba(255, 255, 255, 0.07);
+  --c-border-dark:         rgba(255, 255, 255, 0.14);
+  --c-border-teal:         rgba(20, 184, 166, 0.25);
+  --c-border-teal-h:       rgba(20, 184, 166, 0.40);
+  --c-neutral-pill-bg:     rgba(255, 255, 255, 0.04);
+  --c-neutral-pill-border: rgba(255, 255, 255, 0.09);
+  --c-neut-icon-bg:        rgba(255, 255, 255, 0.04);
+  --c-count-bg:            rgba(255, 255, 255, 0.05);
+  --c-count-border:        rgba(255, 255, 255, 0.07);
+
+  --c-focus-border:        rgba(20, 184, 166, 0.55);
+  --c-focus-ring:          rgba(20, 184, 166, 0.10);
+
+  --c-shadow-card:         rgba(0, 0, 0, 0.20);
+  --c-shadow-teal:         rgba(20, 184, 166, 0.10);
+  --c-shadow-photo:        0 4px 24px rgba(0, 0, 0, 0.38), 0 1px 4px rgba(0, 0, 0, 0.22);
+
+  --c-shimmer-start:       rgba(255, 255, 255, 0.03);
+  --c-shimmer-mid:         rgba(255, 255, 255, 0.07);
+
+  --c-nav-bg:              rgba(28, 27, 25, 0.92);
+  --c-nav-scrolled:        rgba(28, 27, 25, 0.98);
+  --c-nav-shadow:          rgba(0, 0, 0, 0.20);
+
+  --c-scroll-btn-bg:       rgba(50, 48, 46, 0.95);
 }
 
 /* ─── Reset & Base ────────────────────────────────────────────────────────── */
@@ -37,8 +248,8 @@ html {
 }
 
 body {
-  background-color: #ede9e4;
-  color: #57534e;
+  background-color: var(--c-bg);
+  color: var(--c-body);
   font-family: 'DM Sans', system-ui, sans-serif;
   line-height: 1.7;
   min-height: 100vh;
@@ -47,7 +258,7 @@ body {
 
 /* ─── Typography ──────────────────────────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
-  color: #1c1917;
+  color: var(--c-head);
   font-family: 'DM Serif Display', Georgia, serif;
   font-weight: 400;
   line-height: 1.2;
@@ -65,40 +276,40 @@ code, pre, kbd {
 /* ─── Selection & Scrollbar ───────────────────────────────────────────────── */
 ::selection {
   background: rgba(13, 148, 136, 0.18);
-  color: #1c1917;
+  color: var(--c-head);
 }
 
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #ede9e4; }
+::-webkit-scrollbar-track { background: var(--c-bg); }
 ::-webkit-scrollbar-thumb {
-  background: rgba(13, 148, 136, 0.25);
+  background: var(--c-border-teal);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(13, 148, 136, 0.45);
+  background: var(--c-border-teal-h);
 }
 
 /* ─── Focus ───────────────────────────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid rgba(13, 148, 136, 0.55);
+  outline: 2px solid var(--c-focus-border);
   outline-offset: 3px;
   border-radius: 3px;
 }
 
 /* ─── Navbar ──────────────────────────────────────────────────────────────── */
 #navbar {
-  background-color: rgba(237, 233, 228, 0.88);
+  background-color: var(--c-nav-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
 #navbar.nav-scrolled {
-  background-color: rgba(237, 233, 228, 0.96);
+  background-color: var(--c-nav-scrolled);
   backdrop-filter: blur(18px) saturate(1.2);
   -webkit-backdrop-filter: blur(18px) saturate(1.2);
   border-bottom: 1px solid var(--border-subtle);
-  box-shadow: 0 1px 12px rgba(28, 25, 23, 0.06);
+  box-shadow: 0 1px 12px var(--c-nav-shadow);
 }
 
 /* Nav link underline sweep */
@@ -113,20 +324,20 @@ code, pre, kbd {
   left: 0;
   right: 0;
   height: 1.5px;
-  background: #0d9488;
+  background: var(--c-teal);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.22s ease;
 }
 
-.nav-link:hover { color: #1c1917; }
+.nav-link:hover { color: var(--c-head); }
 .nav-link:hover::after { transform: scaleX(1); }
-.nav-link.active { color: #0d9488; }
+.nav-link.active { color: var(--c-teal); }
 .nav-link.active::after { transform: scaleX(1); }
 
 /* ─── Card ────────────────────────────────────────────────────────────────── */
 .card {
-  background: #ffffff;
+  background: var(--c-card);
   border: 1px solid var(--border-subtle);
   border-radius: 0.75rem;
   transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
@@ -135,7 +346,7 @@ code, pre, kbd {
 .card:hover {
   border-color: var(--border-accent);
   transform: translateY(-2px);
-  box-shadow: 0 6px 28px rgba(13, 148, 136, 0.08);
+  box-shadow: 0 6px 28px var(--c-shadow-teal);
 }
 
 /* ─── Utilities ───────────────────────────────────────────────────────────── */
@@ -147,9 +358,9 @@ code, pre, kbd {
   font-family: 'JetBrains Mono', monospace;
   letter-spacing: 0.04em;
   border-radius: 9999px;
-  background: rgba(13, 148, 136, 0.08);
-  color: #0d9488;
-  border: 1px solid rgba(13, 148, 136, 0.2);
+  background: var(--c-teal-bg);
+  color: var(--c-teal);
+  border: 1px solid var(--c-border-teal);
   white-space: nowrap;
 }
 
@@ -180,21 +391,21 @@ code, pre, kbd {
   gap: 0.35rem;
   padding: 1rem 1.25rem;
   border-radius: 0.625rem;
-  background: #ffffff;
+  background: var(--c-card);
   border: 1px solid var(--border-subtle);
-  box-shadow: 0 1px 4px rgba(28, 25, 23, 0.05);
+  box-shadow: 0 1px 4px var(--c-shadow-card);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .stat-card:hover {
-  border-color: rgba(13, 148, 136, 0.3);
-  box-shadow: 0 4px 16px rgba(13, 148, 136, 0.08);
+  border-color: var(--c-border-teal-h);
+  box-shadow: 0 4px 16px var(--c-shadow-teal);
 }
 .stat-value {
   font-family: 'DM Serif Display', Georgia, serif;
   font-size: 1.875rem;
   font-weight: 400;
   line-height: 1;
-  color: #1c1917;
+  color: var(--c-head);
   letter-spacing: -0.01em;
 }
 .stat-label {
@@ -202,7 +413,7 @@ code, pre, kbd {
   font-family: 'JetBrains Mono', monospace;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #a8a29e;
+  color: var(--c-muted);
 }
 
 /* ─── Buttons ─────────────────────────────────────────────────────────────── */
@@ -212,7 +423,7 @@ code, pre, kbd {
   gap: 0.5rem;
   padding: 0.75rem 1.75rem;
   border-radius: 0.5rem;
-  background: #0d9488;
+  background: var(--c-teal);
   color: #ffffff;
   font-weight: 600;
   font-size: 0.875rem;
@@ -221,7 +432,7 @@ code, pre, kbd {
   white-space: nowrap;
 }
 .btn-primary:hover {
-  box-shadow: 0 4px 20px rgba(13, 148, 136, 0.35);
+  box-shadow: 0 4px 20px var(--c-shadow-teal);
   opacity: 0.92;
 }
 .btn-secondary {
@@ -231,7 +442,7 @@ code, pre, kbd {
   padding: 0.75rem 1.75rem;
   border-radius: 0.5rem;
   background: transparent;
-  color: #57534e;
+  color: var(--c-body);
   font-weight: 500;
   font-size: 0.875rem;
   letter-spacing: 0.025em;
@@ -240,8 +451,8 @@ code, pre, kbd {
   white-space: nowrap;
 }
 .btn-secondary:hover {
-  color: #1c1917;
-  border-color: rgba(28, 25, 23, 0.25);
+  color: var(--c-head);
+  border-color: var(--c-border-dark);
 }
 
 /* ─── Scroll indicator ────────────────────────────────────────────────────── */
@@ -278,12 +489,12 @@ code, pre, kbd {
   height: 2.5rem;
 
   border-radius: 0.5rem;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--c-scroll-btn-bg);
   border: 1px solid var(--border-subtle);
-  color: #a8a29e;
+  color: var(--c-muted);
   cursor: pointer;
   backdrop-filter: blur(12px);
-  box-shadow: 0 2px 12px rgba(28, 25, 23, 0.08);
+  box-shadow: 0 2px 12px var(--c-shadow-card);
 
   opacity: 0;
   visibility: hidden;
@@ -303,6 +514,6 @@ code, pre, kbd {
 }
 
 .scroll-top-btn:hover {
-  color: #0d9488;
-  border-color: rgba(13, 148, 136, 0.3);
+  color: var(--c-teal);
+  border-color: var(--c-border-teal-h);
 }

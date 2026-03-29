@@ -19,19 +19,54 @@ const links = [
       BH
     </a>
 
-    <!-- Desktop links -->
-    <ul class="hidden md:flex items-center gap-8" role="list">
-      {links.map(({ href, label }) => (
-        <li>
-          <a
-            href={href}
-            class="nav-link text-dim text-sm font-medium tracking-wide transition-colors duration-200"
-          >
-            {label}
-          </a>
-        </li>
-      ))}
-    </ul>
+    <!-- Desktop: nav links + theme toggle -->
+    <div class="hidden md:flex items-center gap-6">
+      <ul class="flex items-center gap-8" role="list">
+        {links.map(({ href, label }) => (
+          <li>
+            <a
+              href={href}
+              class="nav-link text-dim text-sm font-medium tracking-wide transition-colors duration-200"
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <!-- Theme toggle (desktop) -->
+      <button
+        id="theme-toggle"
+        class="theme-toggle-btn"
+        aria-label="Switch to dark mode"
+        type="button"
+      >
+        <!-- Moon: visible in light mode -->
+        <span class="toggle-icon toggle-icon--moon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+               stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </span>
+        <!-- Sun: visible in dark mode -->
+        <span class="toggle-icon toggle-icon--sun" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+               stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4.5"/>
+            <line x1="12" y1="2"    x2="12" y2="4.5"/>
+            <line x1="12" y1="19.5" x2="12" y2="22"/>
+            <line x1="4.22" y1="4.22"   x2="5.99" y2="5.99"/>
+            <line x1="18.01" y1="18.01" x2="19.78" y2="19.78"/>
+            <line x1="2"    y1="12" x2="4.5"  y2="12"/>
+            <line x1="19.5" y1="12" x2="22"   y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.99"  y2="18.01"/>
+            <line x1="18.01" y1="5.99" x2="19.78" y2="4.22"/>
+          </svg>
+        </span>
+      </button>
+    </div>
 
     <!-- Hamburger button (mobile) -->
     <button
@@ -68,9 +103,146 @@ const links = [
           </a>
         </li>
       ))}
+
+      <!-- Theme toggle as last item in mobile menu -->
+      <li class="mobile-theme-item" role="listitem">
+        <button
+          id="theme-toggle-mobile"
+          class="mobile-theme-btn"
+          type="button"
+          aria-label="Switch to dark mode"
+        >
+          <!-- Moon -->
+          <span class="mobile-toggle-wrap" aria-hidden="true">
+            <span class="mobile-icon mobile-icon--moon">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none"
+                   stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            </span>
+            <!-- Sun -->
+            <span class="mobile-icon mobile-icon--sun">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none"
+                   stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4.5"/>
+                <line x1="12" y1="2"    x2="12" y2="4.5"/>
+                <line x1="12" y1="19.5" x2="12" y2="22"/>
+                <line x1="4.22" y1="4.22"   x2="5.99" y2="5.99"/>
+                <line x1="18.01" y1="18.01" x2="19.78" y2="19.78"/>
+                <line x1="2"    y1="12" x2="4.5"  y2="12"/>
+                <line x1="19.5" y1="12" x2="22"   y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.99"  y2="18.01"/>
+                <line x1="18.01" y1="5.99" x2="19.78" y2="4.22"/>
+              </svg>
+            </span>
+          </span>
+          <span class="theme-label theme-label--light">Dark mode</span>
+          <span class="theme-label theme-label--dark">Light mode</span>
+        </button>
+      </li>
     </ul>
   </div>
 </header>
+
+<style>
+  /* ── Theme toggle button (desktop) ─────────────────────────────────────── */
+  .theme-toggle-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;   /* 44px — icon(22) + 11px padding each side */
+    height: 2.75rem;
+    border-radius: 9999px;
+    border: 1px solid var(--border-subtle);
+    cursor: pointer;
+    background: transparent;
+    color: var(--c-body);
+    padding: 0;
+    flex-shrink: 0;
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  }
+  .theme-toggle-btn:hover {
+    color: var(--c-head);
+    background-color: #e8e5e0;
+    border-color: rgba(28, 25, 23, 0.20);
+  }
+  html.dark .theme-toggle-btn:hover {
+    background-color: #3a3835;
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  /* Overlapping icon spans — absolute so they morph on top of each other */
+  .toggle-icon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.25s ease, transform 0.35s ease;
+  }
+
+  /* Light mode: moon visible */
+  .toggle-icon--moon { opacity: 1; transform: rotate(0deg) scale(1); }
+  .toggle-icon--sun  { opacity: 0; transform: rotate(90deg) scale(0.65); pointer-events: none; }
+
+  /* Dark mode: sun visible */
+  html.dark .toggle-icon--moon { opacity: 0; transform: rotate(-90deg) scale(0.65); pointer-events: none; }
+  html.dark .toggle-icon--sun  { opacity: 1; transform: rotate(0deg) scale(1); }
+
+  /* ── Mobile theme list item ──────────────────────────────────────────────── */
+  .mobile-theme-item {
+    border-top: 1px solid var(--border-subtle);
+    margin-top: 0.4rem;
+    padding-top: 0.4rem;
+  }
+
+  .mobile-theme-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    width: 100%;
+    padding: 0.5rem 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--c-body);
+    transition: color 0.2s ease;
+  }
+  .mobile-theme-btn:hover { color: var(--c-teal); }
+
+  /* Stacked mobile icons */
+  .mobile-toggle-wrap {
+    position: relative;
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+  }
+
+  .mobile-icon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+  }
+
+  .mobile-icon--moon { opacity: 1; }
+  .mobile-icon--sun  { opacity: 0; }
+  html.dark .mobile-icon--moon { opacity: 0; }
+  html.dark .mobile-icon--sun  { opacity: 1; }
+
+  /* Mobile label: show "Dark mode" in light, "Light mode" in dark */
+  .theme-label--dark  { display: none; }
+  .theme-label--light { display: inline; }
+  html.dark .theme-label--dark  { display: inline; }
+  html.dark .theme-label--light { display: none; }
+</style>
 
 <script>
   /* ── Scroll shadow ─────────────────────────────────────────────────────── */
@@ -93,7 +265,6 @@ const links = [
 
     if (open) {
       menu.classList.remove('hidden');
-      // Animate lines into ×
       l1.style.transform = 'translateY(7px) rotate(45deg)';
       l2.style.opacity   = '0';
       l3.style.cssText   = 'width:1.5rem; transform:translateY(-7px) rotate(-45deg)';
@@ -107,7 +278,6 @@ const links = [
 
   btn.addEventListener('click', () => setMenuOpen(!isOpen));
 
-  // Close on any mobile link click
   menu.querySelectorAll('a').forEach(a =>
     a.addEventListener('click', () => setMenuOpen(false))
   );
@@ -133,4 +303,59 @@ const links = [
   );
 
   sections.forEach(s => observer.observe(s));
+
+  /* ── Theme toggle ──────────────────────────────────────────────────────── */
+
+  function isEffectivelyDark(): boolean {
+    if (document.documentElement.classList.contains('dark'))  return true;
+    if (document.documentElement.classList.contains('light')) return false;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+
+  function syncToggleLabels(dark: boolean) {
+    const label = dark ? 'Switch to light mode' : 'Switch to dark mode';
+    document.getElementById('theme-toggle')?.setAttribute('aria-label', label);
+    document.getElementById('theme-toggle-mobile')?.setAttribute('aria-label', label);
+  }
+
+  function applyTheme(dark: boolean) {
+    if (dark) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+      localStorage.setItem('theme', 'light');
+    }
+
+    syncToggleLabels(dark);
+
+    // Update <meta name="theme-color">
+    const metaTheme = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (metaTheme) {
+      metaTheme.content = dark ? '#1c1b19' : '#ede9e4';
+    }
+
+    // Update Turnstile widget theme if present
+    const widget = document.getElementById('turnstile-widget');
+    if (widget) {
+      widget.setAttribute('data-theme', dark ? 'dark' : 'light');
+      if (typeof (window as any).turnstile !== 'undefined') {
+        (window as any).turnstile.reset('#turnstile-widget');
+      }
+    }
+  }
+
+  // Wire up both toggle buttons
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    applyTheme(!isEffectivelyDark());
+  });
+  document.getElementById('theme-toggle-mobile')?.addEventListener('click', () => {
+    applyTheme(!isEffectivelyDark());
+    setMenuOpen(false);
+  });
+
+  // Sync labels on initial load (html.dark may already be set by the head script)
+  syncToggleLabels(isEffectivelyDark());
 </script>

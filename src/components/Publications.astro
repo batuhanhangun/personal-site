@@ -189,7 +189,7 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
     gap: 0.55rem;
     padding: 1.35rem 1.4rem 1.25rem;
     border-radius: 0.75rem;
-    background: #ffffff;
+    background: var(--c-card);
     border: 1px solid var(--border-subtle);
     border-top-width: 2px;
     transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
@@ -197,13 +197,13 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
   }
   .pub-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(28, 25, 23, 0.07);
+    box-shadow: 0 6px 24px var(--c-shadow-card);
   }
 
-  .pub-journal    { border-top-color: #0d9488; }
-  .pub-journal:hover  { border-color: rgba(13, 148, 136, 0.25); border-top-color: #0d9488; }
-  .pub-conference { border-top-color: #6b8f71; }
-  .pub-conference:hover { border-color: rgba(107, 143, 113, 0.25); border-top-color: #6b8f71; }
+  .pub-journal    { border-top-color: var(--c-teal); }
+  .pub-journal:hover  { border-color: var(--c-border-teal); border-top-color: var(--c-teal); }
+  .pub-conference { border-top-color: var(--c-sage); }
+  .pub-conference:hover { border-color: var(--c-sage-border); border-top-color: var(--c-sage); }
   .pub-preprint   { border-top-color: #f59e0b; }
   .pub-preprint:hover { border-color: rgba(245, 158, 11, 0.25); border-top-color: #f59e0b; }
 
@@ -226,14 +226,14 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
     border: 1px solid;
   }
   .badge-journal {
-    color: #0d7a70;
-    background: rgba(13, 148, 136, 0.07);
-    border-color: rgba(13, 148, 136, 0.2);
+    color: var(--c-teal-text);
+    background: var(--c-teal-bg);
+    border-color: var(--c-border-teal);
   }
   .badge-conference {
-    color: #4a7051;
-    background: rgba(107, 143, 113, 0.08);
-    border-color: rgba(107, 143, 113, 0.25);
+    color: var(--c-sage-text);
+    background: var(--c-sage-bg);
+    border-color: var(--c-sage-border);
   }
   .badge-preprint {
     color: #f59e0b;
@@ -244,7 +244,7 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
   .pub-year {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.73rem;
-    color: #a8a29e;
+    color: var(--c-muted);
     letter-spacing: 0.05em;
   }
 
@@ -253,7 +253,7 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
     font-family: 'DM Sans', system-ui, sans-serif;
     font-size: 0.92rem;
     font-weight: 600;
-    color: #1c1917;
+    color: var(--c-head);
     line-height: 1.45;
     margin: 0;
     flex: 1;
@@ -262,20 +262,20 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
   /* ── Authors ───────────────────────────────────────────────────────── */
   .pub-authors {
     font-size: 0.8rem;
-    color: #a8a29e;
+    color: var(--c-muted);
     line-height: 1.5;
     margin: 0;
   }
 
   :global(.pub-me) {
-    color: #1c1917;
+    color: var(--c-head);
     font-weight: 600;
   }
 
   /* ── Venue ─────────────────────────────────────────────────────────── */
   .pub-venue {
     font-size: 0.77rem;
-    color: #a8a29e;
+    color: var(--c-muted);
     font-style: italic;
     margin: 0;
     line-height: 1.4;
@@ -289,12 +289,12 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
     margin-top: 0.15rem;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.68rem;
-    color: #a8a29e;
+    color: var(--c-muted);
     letter-spacing: 0.03em;
     transition: color 0.2s ease;
     word-break: break-all;
   }
-  .pub-link:hover { color: #0d9488; }
+  .pub-link:hover { color: var(--c-teal); }
   .pub-link svg   { flex-shrink: 0; }
 
   /* ── Google Scholar CTA ────────────────────────────────────────────── */
@@ -311,18 +311,18 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
     max-width: 600px;
     padding: 1rem 1.4rem;
     border-radius: 0.75rem;
-    background: #ffffff;
+    background: var(--c-card);
     border: 1px solid var(--border-subtle);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     text-decoration: none;
   }
   .scholar-cta:hover {
-    border-color: rgba(13, 148, 136, 0.28);
-    box-shadow: 0 4px 20px rgba(13, 148, 136, 0.07);
+    border-color: var(--c-border-teal-h);
+    box-shadow: 0 4px 20px var(--c-shadow-teal);
   }
 
   .scholar-icon {
-    color: #0d9488;
+    color: var(--c-teal);
     opacity: 0.8;
     flex-shrink: 0;
   }
@@ -338,7 +338,7 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
   .scholar-cta-title {
     font-size: 0.88rem;
     font-weight: 600;
-    color: #1c1917;
+    color: var(--c-head);
   }
 
   .scholar-cta-stats {
@@ -347,28 +347,28 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
     gap: 0.5rem;
     flex-wrap: wrap;
     font-size: 0.75rem;
-    color: #a8a29e;
+    color: var(--c-muted);
   }
 
   .scholar-stat-value {
     font-family: 'JetBrains Mono', monospace;
-    color: #0d9488;
+    color: var(--c-teal);
     font-size: 0.8rem;
     font-weight: 500;
   }
 
   .scholar-divider {
-    color: #c4bfba;
+    color: var(--c-faint);
     user-select: none;
   }
 
   .scholar-arrow {
-    color: #a8a29e;
+    color: var(--c-muted);
     flex-shrink: 0;
     transition: color 0.2s ease, transform 0.2s ease;
   }
   .scholar-cta:hover .scholar-arrow {
-    color: #0d9488;
+    color: var(--c-teal);
     transform: translateX(3px);
   }
 </style>

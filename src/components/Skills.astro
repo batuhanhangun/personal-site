@@ -194,35 +194,35 @@ const standard  = categories.filter(c => !c.featured);
     gap: 0.9rem;
     padding: 1.25rem 1.35rem;
     border-radius: 0.75rem;
-    background: #ffffff;
+    background: var(--c-card);
     border: 1px solid var(--border-subtle);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
   /* Featured: teal — barely-there tint */
   .skill-card--teal {
-    border-color: rgba(13, 148, 136, 0.18);
-    background: #ffffff;
+    border-color: var(--c-border-teal);
+    background: var(--c-card);
   }
   .skill-card--teal:hover {
-    border-color: rgba(13, 148, 136, 0.3);
-    box-shadow: 0 4px 20px rgba(13, 148, 136, 0.07);
+    border-color: var(--c-border-teal-h);
+    box-shadow: 0 4px 20px var(--c-shadow-teal);
   }
 
   /* Featured: muted warm teal (same family as teal, slightly warmer) */
   .skill-card--coral {
-    border-color: rgba(13, 148, 136, 0.18);
-    background: #ffffff;
+    border-color: var(--c-border-teal);
+    background: var(--c-card);
   }
   .skill-card--coral:hover {
-    border-color: rgba(13, 148, 136, 0.3);
-    box-shadow: 0 4px 20px rgba(13, 148, 136, 0.07);
+    border-color: var(--c-border-teal-h);
+    box-shadow: 0 4px 20px var(--c-shadow-teal);
   }
 
   /* Standard */
   .skill-card:not(.skill-card--teal):not(.skill-card--coral):hover {
-    border-color: rgba(28, 25, 23, 0.14);
-    box-shadow: 0 3px 14px rgba(28, 25, 23, 0.05);
+    border-color: var(--c-border-dark);
+    box-shadow: 0 3px 14px var(--c-shadow-card);
   }
 
   /* ── Card header ──────────────────────────────────────────────────── */
@@ -242,12 +242,12 @@ const standard  = categories.filter(c => !c.featured);
     flex-shrink: 0;
   }
 
-  .skill-card--teal   .skill-cat-icon { color: #0d9488; background: rgba(13, 148, 136, 0.1); }
-  .skill-card--coral  .skill-cat-icon { color: #0d9488; background: rgba(13, 148, 136, 0.08); }
+  .skill-card--teal   .skill-cat-icon { color: var(--c-teal); background: var(--c-teal-bg-m); }
+  .skill-card--coral  .skill-cat-icon { color: var(--c-teal); background: var(--c-teal-bg); }
 
   .skill-cat-icon--muted {
-    color: #a8a29e;
-    background: rgba(28, 25, 23, 0.04);
+    color: var(--c-muted);
+    background: var(--c-neut-icon-bg);
   }
 
   .skill-cat-name {
@@ -259,9 +259,9 @@ const standard  = categories.filter(c => !c.featured);
     font-family: 'DM Sans', system-ui, sans-serif;
   }
 
-  .skill-card--teal  .skill-cat-name { color: #0d9488; }
-  .skill-card--coral .skill-cat-name { color: #0d7a70; }
-  .skill-cat-name--muted             { color: #57534e; font-weight: 500; }
+  .skill-card--teal  .skill-cat-name { color: var(--c-teal); }
+  .skill-card--coral .skill-cat-name { color: var(--c-teal-text); }
+  .skill-cat-name--muted             { color: var(--c-body); font-weight: 500; }
 
   /* ── Skill pills ──────────────────────────────────────────────────── */
   .skill-pills {
@@ -283,18 +283,18 @@ const standard  = categories.filter(c => !c.featured);
   }
 
   .pill--teal {
-    color: #0d9488;
-    background: rgba(13, 148, 136, 0.07);
-    border-color: rgba(13, 148, 136, 0.2);
+    color: var(--c-teal);
+    background: var(--c-teal-bg);
+    border-color: var(--c-border-teal);
   }
   .pill--coral {
-    color: #0d7a70;
-    background: rgba(13, 148, 136, 0.06);
-    border-color: rgba(13, 148, 136, 0.18);
+    color: var(--c-teal-text);
+    background: var(--c-teal-bg);
+    border-color: var(--c-border-teal);
   }
   .pill--neutral {
-    color: #57534e;
-    background: rgba(28, 25, 23, 0.03);
-    border-color: rgba(28, 25, 23, 0.1);
+    color: var(--c-body);
+    background: var(--c-neutral-pill-bg);
+    border-color: var(--c-neutral-pill-border);
   }
 </style>

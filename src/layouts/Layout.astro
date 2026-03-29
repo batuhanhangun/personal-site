@@ -95,7 +95,19 @@ const personSchema = {
     <link rel="icon" href="/favicon.ico" />
 
     <!-- ── Theme / PWA ──────────────────────────────────────────────────── -->
-    <meta name="theme-color" content="#faf9f6" />
+    <meta name="theme-color" content="#ede9e4" />
+
+    <!-- ── Theme init: must run before paint to prevent FOUC ───────────────── -->
+    <script is:inline>
+      (function() {
+        var saved = localStorage.getItem('theme');
+        if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else if (saved === 'light') {
+          document.documentElement.classList.add('light');
+        }
+      })();
+    </script>
 
     <!-- ── DNS prefetch for external domains ────────────────────────────── -->
     <link rel="dns-prefetch" href="https://challenges.cloudflare.com" />

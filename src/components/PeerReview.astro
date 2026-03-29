@@ -98,7 +98,7 @@ const totalJournals = groups.reduce((n, g) => n + g.journals.length, 0);
     border: 1px solid var(--border-subtle);
     border-radius: 0.75rem;
     overflow: hidden;
-    background: #ffffff;
+    background: var(--c-card);
   }
 
   /* ── Publisher row ────────────────────────────────────────────────── */
@@ -111,7 +111,7 @@ const totalJournals = groups.reduce((n, g) => n + g.journals.length, 0);
     transition: background 0.15s ease;
   }
   .review-group:last-child { border-bottom: none; }
-  .review-group:hover { background: #ede9e4; }
+  .review-group:hover { background: var(--c-inset); }
 
   @media (min-width: 640px) {
     .review-group {
@@ -144,16 +144,16 @@ const totalJournals = groups.reduce((n, g) => n + g.journals.length, 0);
     font-size: 0.68rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #57534e;
+    color: var(--c-body);
     white-space: nowrap;
   }
 
   .publisher-count {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem;
-    color: #a8a29e;
-    background: rgba(28, 25, 23, 0.05);
-    border: 1px solid rgba(28, 25, 23, 0.08);
+    color: var(--c-muted);
+    background: var(--c-count-bg);
+    border: 1px solid var(--c-count-border);
     border-radius: 9999px;
     padding: 0.05rem 0.38rem;
     line-height: 1.5;
@@ -177,15 +177,15 @@ const totalJournals = groups.reduce((n, g) => n + g.journals.length, 0);
     padding: 0.18rem 0.55rem;
     font-size: 0.74rem;
     border-radius: 9999px;
-    border: 1px solid rgba(28, 25, 23, 0.09);
-    color: #57534e;
-    background: #ede9e4;
+    border: 1px solid var(--border-subtle);
+    color: var(--c-body);
+    background: var(--c-inset);
     white-space: nowrap;
     transition: border-color 0.15s ease, color 0.15s ease;
   }
   .journal-tag:hover {
-    border-color: rgba(28, 25, 23, 0.18);
-    color: #1c1917;
+    border-color: var(--c-border-dark);
+    color: var(--c-head);
   }
 
 </style>

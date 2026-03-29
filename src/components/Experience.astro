@@ -207,26 +207,26 @@ const typeColor: Record<Exp['type'], string> = {
   /* ── Card ─────────────────────────────────────────────────────────────── */
   .exp-card {
     display: flex;
-    background: #ffffff;
+    background: var(--c-card);
     border: 1px solid var(--border-subtle);
     border-radius: 0.75rem;
     overflow: hidden;
     transition: box-shadow 0.2s ease, border-color 0.2s ease;
   }
   .exp-card:hover {
-    border-color: rgba(13, 148, 136, 0.2);
-    box-shadow: 0 4px 20px rgba(28, 25, 23, 0.06);
+    border-color: var(--c-border-teal);
+    box-shadow: 0 4px 20px var(--c-shadow-card);
   }
 
   /* Left accent bar */
   .exp-accent {
     width: 3px;
     flex-shrink: 0;
-    background: rgba(28, 25, 23, 0.08);
+    background: var(--c-border-neut);
     border-radius: 0;
   }
   .exp-accent--current {
-    background: #0d9488;
+    background: var(--c-teal);
   }
 
   .exp-body {
@@ -249,7 +249,7 @@ const typeColor: Record<Exp['type'], string> = {
   .exp-role {
     font-size: 1rem;
     font-weight: 600;
-    color: #1c1917;
+    color: var(--c-head);
     line-height: 1.25;
     margin: 0 0 0.2rem;
     font-family: 'DM Sans', system-ui, sans-serif;
@@ -257,7 +257,7 @@ const typeColor: Record<Exp['type'], string> = {
 
   .exp-org {
     font-size: 0.84rem;
-    color: #57534e;
+    color: var(--c-body);
     display: flex;
     align-items: center;
     gap: 0.4rem;
@@ -266,7 +266,7 @@ const typeColor: Record<Exp['type'], string> = {
   }
 
   .exp-location {
-    color: #a8a29e;
+    color: var(--c-muted);
     font-size: 0.78rem;
   }
 
@@ -281,7 +281,7 @@ const typeColor: Record<Exp['type'], string> = {
   .exp-period {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.75rem;
-    color: #a8a29e;
+    color: var(--c-muted);
     white-space: nowrap;
   }
 
@@ -296,9 +296,9 @@ const typeColor: Record<Exp['type'], string> = {
     font-family: 'JetBrains Mono', monospace;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #0d9488;
-    background: rgba(13, 148, 136, 0.08);
-    border: 1px solid rgba(13, 148, 136, 0.2);
+    color: var(--c-teal);
+    background: var(--c-teal-bg);
+    border: 1px solid var(--c-border-teal);
   }
 
   @keyframes dotPulse {
@@ -310,7 +310,7 @@ const typeColor: Record<Exp['type'], string> = {
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: #0d9488;
+    background: var(--c-teal);
     animation: dotPulse 1.8s ease-in-out infinite;
     flex-shrink: 0;
   }
@@ -325,8 +325,8 @@ const typeColor: Record<Exp['type'], string> = {
     border: 1px solid;
   }
   .type-hybrid  { color: #f97316; background: rgba(249,115,22,0.06);  border-color: rgba(249,115,22,0.2);  }
-  .type-remote  { color: #0d9488; background: rgba(13,148,136,0.06);  border-color: rgba(13,148,136,0.2);  }
-  .type-onsite  { color: #a8a29e; background: rgba(28,25,23,0.03);    border-color: rgba(28,25,23,0.1);    }
+  .type-remote  { color: var(--c-teal); background: var(--c-teal-bg); border-color: var(--c-border-teal);  }
+  .type-onsite  { color: var(--c-muted); background: var(--c-neutral-pill-bg); border-color: var(--c-neutral-pill-border); }
 
   /* ── Sub-roles ────────────────────────────────────────────────────────── */
   .sub-roles {
@@ -341,7 +341,7 @@ const typeColor: Record<Exp['type'], string> = {
   .sub-role {
     padding: 0.55rem 0.75rem;
     border-radius: 0.45rem;
-    background: #ede9e4;
+    background: var(--c-inset);
     border: 1px solid var(--border-subtle);
   }
 
@@ -357,7 +357,7 @@ const typeColor: Record<Exp['type'], string> = {
   .sub-role-orgs {
     font-size: 0.84rem;
     font-weight: 600;
-    color: #1c1917;
+    color: var(--c-head);
     line-height: 1.35;
   }
 
@@ -373,19 +373,19 @@ const typeColor: Record<Exp['type'], string> = {
   .sub-role-period {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.68rem;
-    color: #a8a29e;
+    color: var(--c-muted);
     white-space: nowrap;
   }
 
   .sub-role-taught {
     font-size: 0.8rem;
-    color: #57534e;
+    color: var(--c-body);
     line-height: 1.55;
     margin: 0;
   }
 
   .sub-role-label {
-    color: #a8a29e;
+    color: var(--c-muted);
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.7rem;
     letter-spacing: 0.04em;
@@ -407,7 +407,7 @@ const typeColor: Record<Exp['type'], string> = {
     position: relative;
     padding-left: 1rem;
     font-size: 0.88rem;
-    color: #57534e;
+    color: var(--c-body);
     line-height: 1.65;
   }
 
@@ -415,7 +415,7 @@ const typeColor: Record<Exp['type'], string> = {
     content: '–';
     position: absolute;
     left: 0;
-    color: #a8a29e;
+    color: var(--c-muted);
     font-size: 0.8rem;
   }
 </style>
