@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import photo    from '../assets/photo.jpg';
+
 /**
  * Hardcoded fallback values — shown immediately (no layout shift).
  * The client-side script below overwrites them with live data from
@@ -85,7 +88,7 @@ const metricsApiUrl = import.meta.env.PUBLIC_METRICS_API_URL ?? '';
     <div class="grid lg:grid-cols-[1fr_400px] gap-12 xl:gap-20 items-center">
 
       <!-- ── Left: text ───────────────────────────────────────────────── -->
-      <div>
+      <div class="order-2 lg:order-1">
         <!-- Eyebrow badge -->
         <p
           class="font-mono text-cyan text-xs tracking-[0.22em] uppercase mb-7"
@@ -215,102 +218,21 @@ const metricsApiUrl = import.meta.env.PUBLIC_METRICS_API_URL ?? '';
         </div>
       </div>
 
-      <!-- ── Right: quantum orbital visual ────────────────────────────── -->
+      <!-- ── Right: profile photo ──────────────────────────────────────── -->
       <div
-        class="hidden lg:flex items-center justify-center"
-        style="animation: fadeIn 0.8s ease 0.5s both"
-        aria-hidden="true"
+        class="order-1 lg:order-2 flex items-center justify-center lg:justify-end"
+        style="animation: fadeIn 0.8s ease 0.4s both"
       >
-        <svg
-          viewBox="0 0 380 380"
-          width="380"
-          height="380"
-          xmlns="http://www.w3.org/2000/svg"
-          class="overflow-visible"
-        >
-          <defs>
-            <filter id="node-glow" x="-120%" y="-120%" width="340%" height="340%">
-              <feGaussianBlur stdDeviation="4" result="blur"/>
-              <feMerge>
-                <feMergeNode in="blur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-            <filter id="ring-glow" x="-15%" y="-15%" width="130%" height="130%">
-              <feGaussianBlur stdDeviation="1.2" result="blur"/>
-              <feMerge>
-                <feMergeNode in="blur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-            <path id="o1"
-              d="M 35,190 a 155,55 0 1,0 310,0 a 155,55 0 1,0 -310,0"/>
-            <path id="o2"
-              d="M 47,190 a 143,50 0 1,0 286,0 a 143,50 0 1,0 -286,0"
-              transform="rotate(57, 190, 190)"/>
-            <path id="o3"
-              d="M 70,190 a 120,43 0 1,0 240,0 a 120,43 0 1,0 -240,0"
-              transform="rotate(-42, 190, 190)"/>
-          </defs>
-
-          <use href="#o1" fill="none"
-               stroke="rgba(0,212,255,0.2)" stroke-width="0.85"
-               filter="url(#ring-glow)"/>
-          <use href="#o2" fill="none"
-               stroke="rgba(0,212,255,0.14)" stroke-width="0.85"
-               filter="url(#ring-glow)"/>
-          <use href="#o3" fill="none"
-               stroke="rgba(168,85,247,0.22)" stroke-width="0.85"
-               stroke-dasharray="5 8"
-               filter="url(#ring-glow)"/>
-
-          <circle cx="190" cy="190" r="26" fill="rgba(0,212,255,0.04)">
-            <animate attributeName="r" values="22;32;22" dur="4s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="1;0.4;1" dur="4s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="190" cy="190" r="13" fill="rgba(0,212,255,0.07)">
-            <animate attributeName="r" values="11;17;11" dur="4s" begin="-2s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="190" cy="190" r="5" fill="#00d4ff" filter="url(#node-glow)">
-            <animate attributeName="r" values="4;7;4" dur="3s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="1;0.55;1" dur="3s" repeatCount="indefinite"/>
-          </circle>
-
-          <circle r="3.5" fill="#00d4ff" filter="url(#node-glow)">
-            <animateMotion dur="7s" repeatCount="indefinite" calcMode="linear">
-              <mpath href="#o1"/>
-            </animateMotion>
-          </circle>
-          <circle r="2.8" fill="#00d4ff" opacity="0.65" filter="url(#node-glow)">
-            <animateMotion dur="11s" repeatCount="indefinite" begin="-4.5s" calcMode="linear">
-              <mpath href="#o2"/>
-            </animateMotion>
-          </circle>
-          <circle r="2.8" fill="#a855f7" filter="url(#node-glow)">
-            <animateMotion dur="9s" repeatCount="indefinite" begin="-2s" calcMode="linear">
-              <mpath href="#o3"/>
-            </animateMotion>
-          </circle>
-
-          <g
-            fill="rgba(0,212,255,0.35)"
-            font-family="'JetBrains Mono',monospace"
-            font-size="10"
-            letter-spacing="0.05em"
-          >
-            <text x="350" y="194">ψ₀</text>
-            <text x="18"  y="194">ψ₁</text>
-            <text x="181" y="22">|0⟩</text>
-            <text x="181" y="366">|1⟩</text>
-          </g>
-
-          <g stroke="rgba(0,212,255,0.12)" stroke-width="1" fill="none">
-            <path d="M 10,10 H 24 M 10,10 V 24"/>
-            <path d="M 370,10 H 356 M 370,10 V 24"/>
-            <path d="M 10,370 H 24 M 10,370 V 356"/>
-            <path d="M 370,370 H 356 M 370,370 V 356"/>
-          </g>
-        </svg>
+        <div class="hero-photo-ring">
+          <Image
+            src={photo}
+            alt="Batuhan Hangün"
+            width={300}
+            height={300}
+            class="hero-photo"
+            loading="eager"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -515,4 +437,44 @@ const metricsApiUrl = import.meta.env.PUBLIC_METRICS_API_URL ?? '';
 
   @keyframes drawTrace  { to { stroke-dashoffset: 0; } }
   @keyframes dotAppear  { to { opacity: 1; } }
+
+  /* ── Profile photo ──────────────────────────────────────────────────────── */
+  .hero-photo-ring {
+    position: relative;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 212, 255, 0.55) 0%,
+      rgba(168, 85, 247, 0.25) 60%,
+      rgba(0, 212, 255, 0.15) 100%
+    );
+    box-shadow:
+      0 0 32px rgba(0, 212, 255, 0.18),
+      0 0 80px rgba(0, 212, 255, 0.07);
+  }
+
+  .hero-photo {
+    display: block;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    /* inner dark ring to separate image from gradient border */
+    box-shadow: inset 0 0 0 2px rgba(10, 10, 20, 0.6);
+  }
+
+  @media (min-width: 768px) {
+    .hero-photo {
+      width: 240px;
+      height: 240px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hero-photo {
+      width: 300px;
+      height: 300px;
+    }
+  }
 </style>
