@@ -14,8 +14,8 @@
 import { createHash }                    from 'node:crypto';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 
-const HTML_PATH    = 'dist/client/index.html';
-const HEADERS_PATH = 'dist/client/_headers';
+const HTML_PATH    = 'dist/index.html';
+const HEADERS_PATH = 'dist/_headers';
 const PLACEHOLDER  = '__SCRIPT_HASHES__';
 
 /* ── Bail gracefully when files don't exist (e.g. CI dry-run) ─────────────── */
