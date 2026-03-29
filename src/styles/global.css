@@ -2,28 +2,28 @@
 
 /* ─── Design Tokens ───────────────────────────────────────────────────────── */
 @theme {
-  /* Colors */
-  --color-bg:          #0a0a0f;
-  --color-surface:     #0f0f1a;
-  --color-card:        #131320;
-  --color-card-hover:  #1a1a2e;
-  --color-cyan:        #00d4ff;
-  --color-purple:      #a855f7;
-  --color-heading:     #f0f0f0;
-  --color-dim:         #a0a0b0;
-  --color-muted:       #52526a;
+  /* Colors — "Warm Academic" palette */
+  --color-bg:          #ede9e4;
+  --color-surface:     #f3f0ea;
+  --color-card:        #ffffff;
+  --color-cyan:        #0d9488;   /* "cyan" token name kept for Tailwind compat */
+  --color-purple:      #f97316;   /* "purple" token name kept for Tailwind compat */
+  --color-heading:     #1c1917;
+  --color-dim:         #57534e;
+  --color-muted:       #a8a29e;
 
   /* Typography */
-  --font-sans: 'Space Grotesk', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans:  'DM Sans', system-ui, sans-serif;
+  --font-serif: 'DM Serif Display', Georgia, serif;
+  --font-mono:  'JetBrains Mono', monospace;
 }
 
-/* Non-theme custom properties (rgba values) */
+/* Non-theme custom properties */
 :root {
-  --border-subtle:  rgba(255, 255, 255, 0.07);
-  --border-accent:  rgba(0, 212, 255, 0.22);
-  --glow-cyan:      rgba(0, 212, 255, 0.12);
-  --glow-purple:    rgba(168, 85, 247, 0.10);
+  --border-subtle:  rgba(28, 25, 23, 0.09);
+  --border-accent:  rgba(13, 148, 136, 0.3);
+  --glow-teal:      rgba(13, 148, 136, 0.12);
+  --glow-coral:     rgba(249, 115, 22, 0.10);
 }
 
 /* ─── Reset & Base ────────────────────────────────────────────────────────── */
@@ -37,51 +37,19 @@ html {
 }
 
 body {
-  background-color: #0a0a0f;
-  color: #a0a0b0;
-  font-family: 'Space Grotesk', system-ui, sans-serif;
+  background-color: #ede9e4;
+  color: #57534e;
+  font-family: 'DM Sans', system-ui, sans-serif;
   line-height: 1.7;
   min-height: 100vh;
   overflow-x: hidden;
-  position: relative;
-}
-
-/* Dot grid layer */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.032) 1px, transparent 1px);
-  background-size: 28px 28px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Ambient glow layer */
-body::after {
-  content: '';
-  position: fixed;
-  top: -25%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 140vw;
-  height: 80vh;
-  background: radial-gradient(ellipse at 50% 0%, rgba(0, 212, 255, 0.055) 0%, transparent 65%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Elevate all real content above bg layers */
-body > * {
-  position: relative;
-  z-index: 1;
 }
 
 /* ─── Typography ──────────────────────────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
-  color: #f0f0f0;
-  font-family: 'Space Grotesk', system-ui, sans-serif;
-  font-weight: 600;
+  color: #1c1917;
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-weight: 400;
   line-height: 1.2;
 }
 
@@ -96,37 +64,41 @@ code, pre, kbd {
 
 /* ─── Selection & Scrollbar ───────────────────────────────────────────────── */
 ::selection {
-  background: rgba(0, 212, 255, 0.22);
-  color: #f0f0f0;
+  background: rgba(13, 148, 136, 0.18);
+  color: #1c1917;
 }
 
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #0a0a0f; }
+::-webkit-scrollbar-track { background: #ede9e4; }
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 212, 255, 0.18);
+  background: rgba(13, 148, 136, 0.25);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 212, 255, 0.38);
+  background: rgba(13, 148, 136, 0.45);
 }
 
 /* ─── Focus ───────────────────────────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid rgba(0, 212, 255, 0.55);
+  outline: 2px solid rgba(13, 148, 136, 0.55);
   outline-offset: 3px;
   border-radius: 3px;
 }
 
 /* ─── Navbar ──────────────────────────────────────────────────────────────── */
 #navbar {
-  transition: background-color 0.35s ease, border-color 0.35s ease;
+  background-color: rgba(237, 233, 228, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
 #navbar.nav-scrolled {
-  background-color: rgba(10, 10, 15, 0.85);
-  backdrop-filter: blur(18px) saturate(1.4);
-  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  background-color: rgba(237, 233, 228, 0.96);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
   border-bottom: 1px solid var(--border-subtle);
+  box-shadow: 0 1px 12px rgba(28, 25, 23, 0.06);
 }
 
 /* Nav link underline sweep */
@@ -140,21 +112,21 @@ code, pre, kbd {
   bottom: -3px;
   left: 0;
   right: 0;
-  height: 1px;
-  background: #00d4ff;
+  height: 1.5px;
+  background: #0d9488;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.22s ease;
 }
 
-.nav-link:hover { color: #f0f0f0; }
+.nav-link:hover { color: #1c1917; }
 .nav-link:hover::after { transform: scaleX(1); }
-.nav-link.active { color: #00d4ff; }
+.nav-link.active { color: #0d9488; }
 .nav-link.active::after { transform: scaleX(1); }
 
 /* ─── Card ────────────────────────────────────────────────────────────────── */
 .card {
-  background: #131320;
+  background: #ffffff;
   border: 1px solid var(--border-subtle);
   border-radius: 0.75rem;
   transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
@@ -163,14 +135,10 @@ code, pre, kbd {
 .card:hover {
   border-color: var(--border-accent);
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(0, 212, 255, 0.06);
+  box-shadow: 0 6px 28px rgba(13, 148, 136, 0.08);
 }
 
 /* ─── Utilities ───────────────────────────────────────────────────────────── */
-.glow-text {
-  text-shadow: 0 0 28px rgba(0, 212, 255, 0.45);
-}
-
 .tag {
   display: inline-flex;
   align-items: center;
@@ -179,16 +147,16 @@ code, pre, kbd {
   font-family: 'JetBrains Mono', monospace;
   letter-spacing: 0.04em;
   border-radius: 9999px;
-  background: rgba(0, 212, 255, 0.08);
-  color: #00d4ff;
-  border: 1px solid rgba(0, 212, 255, 0.18);
+  background: rgba(13, 148, 136, 0.08);
+  color: #0d9488;
+  border: 1px solid rgba(13, 148, 136, 0.2);
   white-space: nowrap;
 }
 
-.tag-purple {
-  background: rgba(168, 85, 247, 0.08);
-  color: #a855f7;
-  border-color: rgba(168, 85, 247, 0.18);
+.tag-coral {
+  background: rgba(249, 115, 22, 0.08);
+  color: #f97316;
+  border-color: rgba(249, 115, 22, 0.2);
 }
 
 /* ─── Animations ──────────────────────────────────────────────────────────── */
@@ -202,15 +170,8 @@ code, pre, kbd {
   to   { opacity: 1; }
 }
 
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0   rgba(0, 212, 255, 0.25); }
-  50%       { box-shadow: 0 0 0 6px rgba(0, 212, 255, 0);    }
-}
-
-/* forwards = hold end-state; both = also apply from-state before delay starts */
-.animate-fade-in-up { animation: fadeInUp  0.6s ease both; }
-.animate-fade-in    { animation: fadeIn    0.6s ease both; }
-.animate-pulse-glow { animation: pulse-glow 2.4s ease-in-out infinite; }
+.animate-fade-in-up { animation: fadeInUp 0.6s ease both; }
+.animate-fade-in    { animation: fadeIn   0.6s ease both; }
 
 /* ─── Hero stat cards ─────────────────────────────────────────────────────── */
 .stat-card {
@@ -219,29 +180,29 @@ code, pre, kbd {
   gap: 0.35rem;
   padding: 1rem 1.25rem;
   border-radius: 0.625rem;
-  background: rgba(19, 19, 32, 0.7);
+  background: #ffffff;
   border: 1px solid var(--border-subtle);
-  backdrop-filter: blur(8px);
+  box-shadow: 0 1px 4px rgba(28, 25, 23, 0.05);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .stat-card:hover {
-  border-color: var(--border-accent);
-  box-shadow: 0 4px 24px rgba(0, 212, 255, 0.07);
+  border-color: rgba(13, 148, 136, 0.3);
+  box-shadow: 0 4px 16px rgba(13, 148, 136, 0.08);
 }
 .stat-value {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'DM Serif Display', Georgia, serif;
   font-size: 1.875rem;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 1;
-  color: #f0f0f0;
-  letter-spacing: -0.02em;
+  color: #1c1917;
+  letter-spacing: -0.01em;
 }
 .stat-label {
   font-size: 0.7rem;
   font-family: 'JetBrains Mono', monospace;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #52526a;
+  color: #a8a29e;
 }
 
 /* ─── Buttons ─────────────────────────────────────────────────────────────── */
@@ -251,8 +212,8 @@ code, pre, kbd {
   gap: 0.5rem;
   padding: 0.75rem 1.75rem;
   border-radius: 0.5rem;
-  background: #00d4ff;
-  color: #0a0a0f;
+  background: #0d9488;
+  color: #ffffff;
   font-weight: 600;
   font-size: 0.875rem;
   letter-spacing: 0.025em;
@@ -260,7 +221,7 @@ code, pre, kbd {
   white-space: nowrap;
 }
 .btn-primary:hover {
-  box-shadow: 0 0 28px rgba(0, 212, 255, 0.45);
+  box-shadow: 0 4px 20px rgba(13, 148, 136, 0.35);
   opacity: 0.92;
 }
 .btn-secondary {
@@ -270,7 +231,7 @@ code, pre, kbd {
   padding: 0.75rem 1.75rem;
   border-radius: 0.5rem;
   background: transparent;
-  color: #a0a0b0;
+  color: #57534e;
   font-weight: 500;
   font-size: 0.875rem;
   letter-spacing: 0.025em;
@@ -279,26 +240,17 @@ code, pre, kbd {
   white-space: nowrap;
 }
 .btn-secondary:hover {
-  color: #f0f0f0;
-  border-color: var(--border-accent);
+  color: #1c1917;
+  border-color: rgba(28, 25, 23, 0.25);
 }
 
 /* ─── Scroll indicator ────────────────────────────────────────────────────── */
 @keyframes scrollBounce {
-  0%, 100% { transform: translateY(0);    opacity: 0.4; }
-  50%       { transform: translateY(6px); opacity: 0.9; }
+  0%, 100% { transform: translateX(-50%) translateY(0);    opacity: 0.5; }
+  50%       { transform: translateX(-50%) translateY(6px); opacity: 0.9; }
 }
-.scroll-hint { animation: scrollBounce 1.8s ease-in-out infinite; }
 
 /* ─── Scroll-triggered section fade-in ───────────────────────────────────── */
-/*
- * Sections carry [data-fade-in]. When JS is available and the user has no
- * reduced-motion preference, Layout.astro adds .js-animations to <html>.
- * The IntersectionObserver then adds .is-visible when a section enters the
- * viewport, triggering the transition below.
- *
- * Without JS (or with prefers-reduced-motion): sections are always visible.
- */
 .js-animations [data-fade-in] {
   opacity: 0;
   transform: translateY(22px);
@@ -326,11 +278,12 @@ code, pre, kbd {
   height: 2.5rem;
 
   border-radius: 0.5rem;
-  background: rgba(19, 19, 32, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   border: 1px solid var(--border-subtle);
-  color: #52526a;
+  color: #a8a29e;
   cursor: pointer;
   backdrop-filter: blur(12px);
+  box-shadow: 0 2px 12px rgba(28, 25, 23, 0.08);
 
   opacity: 0;
   visibility: hidden;
@@ -350,6 +303,6 @@ code, pre, kbd {
 }
 
 .scroll-top-btn:hover {
-  color: #00d4ff;
-  border-color: rgba(0, 212, 255, 0.25);
+  color: #0d9488;
+  border-color: rgba(13, 148, 136, 0.3);
 }

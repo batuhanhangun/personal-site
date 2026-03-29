@@ -10,8 +10,8 @@ interface Publication {
   authors:  string;
   venue:    string;
   year:     number;
-  doi?:     string;   // short form — linked via https://doi.org/
-  arxivId?: string;   // linked via https://arxiv.org/abs/
+  doi?:     string;
+  arxivId?: string;
 }
 
 const publications: Publication[] = [
@@ -49,7 +49,6 @@ const publications: Publication[] = [
   },
 ];
 
-/** Wrap the author's own name in a <strong> span */
 function highlightAuthor(authors: string): string {
   return authors
     .replace(/B\.\s*Hangun/g,  '<strong class="pub-me">B.&nbsp;Hangun</strong>')
@@ -89,7 +88,6 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
       return (
         <article class:list={['pub-card', `pub-${pub.type}`]}>
 
-          <!-- top row: badge + year -->
           <div class="pub-top">
             <span class:list={['pub-badge', `badge-${pub.type}`]}>
               {typeLabel[pub.type]}
@@ -97,16 +95,12 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
             <span class="pub-year">{pub.year}</span>
           </div>
 
-          <!-- title -->
           <h3 class="pub-title">{pub.title}</h3>
 
-          <!-- authors — name highlighted via set:html -->
           <p class="pub-authors" set:html={highlightAuthor(pub.authors)} />
 
-          <!-- venue -->
           <p class="pub-venue">{pub.venue}</p>
 
-          <!-- DOI / arXiv link -->
           {linkHref && (
             <a
               href={linkHref}
@@ -115,7 +109,7 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
               class="pub-link"
               aria-label={`Open ${linkLabel}`}
             >
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
                    stroke-linejoin="round" aria-hidden="true">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
@@ -140,9 +134,8 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
       class="scholar-cta"
       aria-label="View all publications on Google Scholar"
     >
-      <!-- Scholar "S" logotype -->
       <div class="scholar-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
           <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 10a8 8 0 0 1 7.162 3.44L24 9.5z"/>
         </svg>
       </div>
@@ -164,7 +157,7 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
         </span>
       </div>
 
-      <svg class="scholar-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"
+      <svg class="scholar-arrow" width="17" height="17" viewBox="0 0 24 24" fill="none"
            stroke="currentColor" stroke-width="2" stroke-linecap="round"
            stroke-linejoin="round" aria-hidden="true">
         <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -179,13 +172,13 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
   }
 
   @media (min-width: 768px) {
     .pub-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 1.25rem;
+      gap: 1.125rem;
     }
   }
 
@@ -193,28 +186,26 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
   .pub-card {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
-    padding: 1.4rem 1.5rem 1.3rem;
+    gap: 0.55rem;
+    padding: 1.35rem 1.4rem 1.25rem;
     border-radius: 0.75rem;
-    background: rgba(19, 19, 32, 0.65);
+    background: #ffffff;
     border: 1px solid var(--border-subtle);
     border-top-width: 2px;
     transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-    /* push DOI link to bottom */
     justify-content: space-between;
   }
   .pub-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 28px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 6px 24px rgba(28, 25, 23, 0.07);
   }
 
-  /* Top-border accent per type */
-  .pub-journal    { border-top-color: #00d4ff; }
-  .pub-journal:hover  { border-color: rgba(0, 212, 255, 0.3); border-top-color: #00d4ff; }
-  .pub-conference { border-top-color: #a855f7; }
-  .pub-conference:hover { border-color: rgba(168, 85, 247, 0.3); border-top-color: #a855f7; }
+  .pub-journal    { border-top-color: #0d9488; }
+  .pub-journal:hover  { border-color: rgba(13, 148, 136, 0.25); border-top-color: #0d9488; }
+  .pub-conference { border-top-color: #6b8f71; }
+  .pub-conference:hover { border-color: rgba(107, 143, 113, 0.25); border-top-color: #6b8f71; }
   .pub-preprint   { border-top-color: #f59e0b; }
-  .pub-preprint:hover { border-color: rgba(245, 158, 11, 0.3); border-top-color: #f59e0b; }
+  .pub-preprint:hover { border-color: rgba(245, 158, 11, 0.25); border-top-color: #f59e0b; }
 
   /* ── Top row ───────────────────────────────────────────────────────── */
   .pub-top {
@@ -226,66 +217,65 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
 
   .pub-badge {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.62rem;
+    font-size: 0.6rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    padding: 0.18rem 0.6rem;
+    padding: 0.15rem 0.55rem;
     border-radius: 9999px;
     border: 1px solid;
   }
   .badge-journal {
-    color: #00d4ff;
-    background: rgba(0, 212, 255, 0.08);
-    border-color: rgba(0, 212, 255, 0.22);
+    color: #0d7a70;
+    background: rgba(13, 148, 136, 0.07);
+    border-color: rgba(13, 148, 136, 0.2);
   }
   .badge-conference {
-    color: #a855f7;
-    background: rgba(168, 85, 247, 0.08);
-    border-color: rgba(168, 85, 247, 0.22);
+    color: #4a7051;
+    background: rgba(107, 143, 113, 0.08);
+    border-color: rgba(107, 143, 113, 0.25);
   }
   .badge-preprint {
     color: #f59e0b;
-    background: rgba(245, 158, 11, 0.08);
+    background: rgba(245, 158, 11, 0.07);
     border-color: rgba(245, 158, 11, 0.22);
   }
 
   .pub-year {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    color: #52526a;
+    font-size: 0.73rem;
+    color: #a8a29e;
     letter-spacing: 0.05em;
   }
 
   /* ── Title ─────────────────────────────────────────────────────────── */
   .pub-title {
+    font-family: 'DM Sans', system-ui, sans-serif;
     font-size: 0.92rem;
     font-weight: 600;
-    color: #f0f0f0;
+    color: #1c1917;
     line-height: 1.45;
     margin: 0;
-    /* fill available space so DOI link sits at the bottom */
     flex: 1;
   }
 
   /* ── Authors ───────────────────────────────────────────────────────── */
   .pub-authors {
     font-size: 0.8rem;
-    color: #a0a0b0;
+    color: #a8a29e;
     line-height: 1.5;
     margin: 0;
   }
 
-  /* Highlighted author name */
   :global(.pub-me) {
-    color: #f0f0f0;
+    color: #1c1917;
     font-weight: 600;
   }
 
   /* ── Venue ─────────────────────────────────────────────────────────── */
   .pub-venue {
-    font-size: 0.78rem;
-    color: #52526a;
+    font-size: 0.77rem;
+    color: #a8a29e;
     font-style: italic;
     margin: 0;
     line-height: 1.4;
@@ -295,16 +285,16 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
   .pub-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    margin-top: 0.25rem;
+    gap: 0.3rem;
+    margin-top: 0.15rem;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    color: #52526a;
+    font-size: 0.68rem;
+    color: #a8a29e;
     letter-spacing: 0.03em;
     transition: color 0.2s ease;
     word-break: break-all;
   }
-  .pub-link:hover { color: #00d4ff; }
+  .pub-link:hover { color: #0d9488; }
   .pub-link svg   { flex-shrink: 0; }
 
   /* ── Google Scholar CTA ────────────────────────────────────────────── */
@@ -316,25 +306,24 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
   .scholar-cta {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
+    gap: 1.125rem;
     width: 100%;
-    max-width: 640px;
-    padding: 1.1rem 1.5rem;
+    max-width: 600px;
+    padding: 1rem 1.4rem;
     border-radius: 0.75rem;
-    background: rgba(19, 19, 32, 0.7);
+    background: #ffffff;
     border: 1px solid var(--border-subtle);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
     text-decoration: none;
   }
   .scholar-cta:hover {
-    border-color: rgba(0, 212, 255, 0.25);
-    background: rgba(0, 212, 255, 0.04);
-    box-shadow: 0 4px 24px rgba(0, 212, 255, 0.07);
+    border-color: rgba(13, 148, 136, 0.28);
+    box-shadow: 0 4px 20px rgba(13, 148, 136, 0.07);
   }
 
   .scholar-icon {
-    color: #00d4ff;
-    opacity: 0.75;
+    color: #0d9488;
+    opacity: 0.8;
     flex-shrink: 0;
   }
 
@@ -342,44 +331,44 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.2rem;
     min-width: 0;
   }
 
   .scholar-cta-title {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 600;
-    color: #f0f0f0;
+    color: #1c1917;
   }
 
   .scholar-cta-stats {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.5rem;
     flex-wrap: wrap;
-    font-size: 0.77rem;
-    color: #52526a;
+    font-size: 0.75rem;
+    color: #a8a29e;
   }
 
   .scholar-stat-value {
     font-family: 'JetBrains Mono', monospace;
-    color: #00d4ff;
-    font-size: 0.82rem;
+    color: #0d9488;
+    font-size: 0.8rem;
     font-weight: 500;
   }
 
   .scholar-divider {
-    color: #2a2a3a;
+    color: #c4bfba;
     user-select: none;
   }
 
   .scholar-arrow {
-    color: #52526a;
+    color: #a8a29e;
     flex-shrink: 0;
     transition: color 0.2s ease, transform 0.2s ease;
   }
   .scholar-cta:hover .scholar-arrow {
-    color: #00d4ff;
+    color: #0d9488;
     transform: translateX(3px);
   }
 </style>

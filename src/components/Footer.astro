@@ -40,8 +40,8 @@ const socials = [
           aria-label={s.label}
         >
           <svg
-            viewBox={s.label === 'Google Scholar' ? '0 0 24 24' : '0 0 24 24'}
-            width="18" height="18"
+            viewBox="0 0 24 24"
+            width="17" height="17"
             fill={s.label === 'Google Scholar' ? 'currentColor' : 'none'}
             stroke={s.label === 'Google Scholar' ? 'none' : 'currentColor'}
             stroke-width="2"
@@ -57,13 +57,6 @@ const socials = [
     <!-- Legal + credit -->
     <div class="footer-legal">
       <span>© {year} Batuhan Hangün. All rights reserved.</span>
-      <span class="footer-sep" aria-hidden="true">·</span>
-      <a
-        href="https://turqubit.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="footer-credit-link"
-      >Articles on turqubit.com</a>
       <span class="footer-sep" aria-hidden="true">·</span>
       <span>
         Built with
@@ -89,7 +82,8 @@ const socials = [
 <style>
   .site-footer {
     border-top: 1px solid var(--border-subtle);
-    padding: 2.5rem 0 2rem;
+    padding: 2.25rem 0 1.75rem;
+    background: #e4e1db;
   }
 
   .footer-inner {
@@ -99,7 +93,7 @@ const socials = [
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.25rem;
+    gap: 1.125rem;
     text-align: center;
   }
 
@@ -116,20 +110,20 @@ const socials = [
   .footer-brand {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.7rem;
   }
 
   .footer-logo {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 700;
     letter-spacing: 0.15em;
-    color: #00d4ff;
+    color: #0d9488;
   }
 
   .footer-tagline {
-    font-size: 0.78rem;
-    color: #52526a;
+    font-size: 0.77rem;
+    color: #a8a29e;
     letter-spacing: 0.02em;
   }
 
@@ -137,16 +131,16 @@ const socials = [
   .footer-socials {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.85rem;
   }
 
   .footer-social-link {
-    color: #52526a;
+    color: #a8a29e;
     transition: color 0.2s ease;
     display: flex;
     align-items: center;
   }
-  .footer-social-link:hover { color: #a0a0b0; }
+  .footer-social-link:hover { color: #57534e; }
 
   /* ── Legal row ──────────────────────────────────────────────────────── */
   .footer-legal {
@@ -154,9 +148,9 @@ const socials = [
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 0.4rem;
-    font-size: 0.74rem;
-    color: #52526a;
+    gap: 0.35rem;
+    font-size: 0.73rem;
+    color: #a8a29e;
     line-height: 1.6;
   }
 
@@ -165,15 +159,15 @@ const socials = [
   }
 
   .footer-sep {
-    color: #2a2a3a;
+    color: #c4bfba;
     user-select: none;
   }
 
   .footer-credit-link {
-    color: #52526a;
+    color: #a8a29e;
     text-decoration: underline;
-    text-decoration-color: rgba(255,255,255,0.1);
+    text-decoration-color: rgba(28, 25, 23, 0.12);
     transition: color 0.2s ease;
   }
-  .footer-credit-link:hover { color: #a0a0b0; }
+  .footer-credit-link:hover { color: #57534e; }
 </style>

@@ -11,19 +11,19 @@ interface Props {
 const { label, title, subtitle, centered = false } = Astro.props;
 ---
 
-<div class:list={['mb-16', centered && 'text-center']}>
+<div class:list={['mb-7', centered && 'text-center']}>
   {label && (
     <p class="font-mono text-cyan text-xs tracking-[0.2em] uppercase mb-3">
       {label}
     </p>
   )}
 
-  <h2 class="text-3xl md:text-4xl font-semibold text-heading leading-tight">
+  <h2 class="font-serif text-3xl md:text-4xl text-heading leading-tight">
     {title}
   </h2>
 
   {subtitle && (
-    <p class:list={['mt-4 text-dim text-base md:text-lg leading-relaxed', !centered && 'max-w-2xl']}>
+    <p class:list={['mt-3 text-dim text-base leading-relaxed', !centered && 'max-w-2xl']}>
       {subtitle}
     </p>
   )}
@@ -31,7 +31,7 @@ const { label, title, subtitle, centered = false } = Astro.props;
   <!-- Decorative rule -->
   <div
     class:list={[
-      'mt-6 h-px w-12 bg-cyan opacity-40',
+      'mt-5 h-0.5 w-10 rounded-full bg-cyan opacity-60',
       centered && 'mx-auto',
     ]}
   />
