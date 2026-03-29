@@ -4,8 +4,8 @@ import SectionHeading from './SectionHeading.astro';
 
 /* Turnstile site key — safe to expose publicly */
 const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA'; // dummy for dev
-/* Contact Worker URL — falls back to mailto: if not set */
-const CONTACT_FORM_URL = import.meta.env.PUBLIC_CONTACT_FORM_URL ?? '';
+/* Contact Worker URL — falls back to mailto: only if genuinely unset */
+const CONTACT_FORM_URL = import.meta.env.PUBLIC_CONTACT_FORM_URL ?? 'https://contact-form.batuhanhangun.workers.dev';
 ---
 
 <Section id="contact">
@@ -80,7 +80,6 @@ const CONTACT_FORM_URL = import.meta.env.PUBLIC_CONTACT_FORM_URL ?? '';
           class="cf-turnstile"
           data-sitekey={TURNSTILE_SITE_KEY}
           data-theme="dark"
-          data-appearance="interaction-only"
           data-callback="onTurnstileVerified"
           data-expired-callback="onTurnstileExpired"
           data-error-callback="onTurnstileExpired"
@@ -176,6 +175,20 @@ const CONTACT_FORM_URL = import.meta.env.PUBLIC_CONTACT_FORM_URL ?? '';
   </div>
 </Section>
 
+<!-- Turnstile callbacks — defined inline BEFORE api.js loads to avoid the
+     race condition where Turnstile auto-verifies before the module script
+     has registered the callbacks on window. -->
+<script is:inline>
+  window.onTurnstileVerified = function () {
+    var btn = document.getElementById('submit-btn');
+    if (btn) btn.disabled = false;
+  };
+  window.onTurnstileExpired = function () {
+    var btn = document.getElementById('submit-btn');
+    if (btn) btn.disabled = true;
+  };
+</script>
+
 <!-- Turnstile API -->
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
@@ -204,19 +217,11 @@ const CONTACT_FORM_URL = import.meta.env.PUBLIC_CONTACT_FORM_URL ?? '';
     }
   })();
 
-  /* ── Turnstile callbacks (must be global for the widget to call them) ── */
+  /* ── Form submission ──────────────────────────────────────────────────── */
   const form      = document.getElementById('contact-form')  as HTMLFormElement;
   const submitBtn = document.getElementById('submit-btn')    as HTMLButtonElement;
   const statusEl  = document.getElementById('form-status')   as HTMLElement;
 
-  (window as any).onTurnstileVerified = function () {
-    submitBtn.disabled = false;
-  };
-  (window as any).onTurnstileExpired = function () {
-    submitBtn.disabled = true;
-  };
-
-  /* ── Form submission ──────────────────────────────────────────────────── */
   function setStatus(msg: string, type: 'success' | 'error' | '') {
     statusEl.textContent = msg;
     statusEl.className   = `form-status${type ? ` form-status--${type}` : ''}`;
@@ -279,18 +284,18 @@ const CONTACT_FORM_URL = import.meta.env.PUBLIC_CONTACT_FORM_URL ?? '';
         body: JSON.stringify({ name, email, message, website, 'cf-turnstile-response': token }),
       });
 
-      const json = await res.json() as { ok: boolean; error?: string };
+      const json = await res.json() as { success: boolean; message?: string };
 
-      if (json.ok) {
+      if (json.success) {
         form.reset();
-        // Reset Turnstile widget and re-disable submit until it verifies again
+        // Re-disable submit until Turnstile issues a fresh token
         submitBtn.disabled = true;
         if (typeof (window as any).turnstile !== 'undefined') {
           (window as any).turnstile.reset('#turnstile-widget');
         }
         setStatus('Message sent! I\'ll be in touch soon.', 'success');
       } else {
-        setStatus(json.error ?? 'Something went wrong. Please try again.', 'error');
+        setStatus(json.message ?? 'Something went wrong. Please try again.', 'error');
       }
     } catch {
       setStatus('Network error. Please check your connection and try again.', 'error');
