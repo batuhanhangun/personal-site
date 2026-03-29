@@ -278,7 +278,7 @@ const CONTACT_FORM_URL = import.meta.env.PUBLIC_CONTACT_FORM_URL ?? 'https://con
     setLoading(true);
 
     try {
-      const res = await fetch(actionUrl, {
+      const res = await fetch(`${actionUrl}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, message, website, 'cf-turnstile-response': token }),

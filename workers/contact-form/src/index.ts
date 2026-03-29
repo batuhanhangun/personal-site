@@ -12,7 +12,7 @@ export interface Env {
 
 // ── Config ────────────────────────────────────────────────────────────────────
 
-const ALLOWED_ORIGIN   = 'https://batuhanhangun.com';
+const ALLOWED_ORIGINS  = new Set(['https://batuhanhangun.com', 'https://www.batuhanhangun.com']);
 const TO_ADDRESS       = 'batuhan@batuhanhangun.com';
 const FROM_ADDRESS     = 'noreply@batuhanhangun.com';
 const FROM_NAME        = 'Contact Form';
@@ -109,20 +109,21 @@ async function sendEmail(name: string, email: string, message: string): Promise<
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    const origin = request.headers.get('Origin') ?? '';
-    const cors   = corsHeaders(ALLOWED_ORIGIN);
+    const origin  = request.headers.get('Origin') ?? '';
+    const allowed = ALLOWED_ORIGINS.has(origin);
+    const cors    = corsHeaders(allowed ? origin : '');
 
     // Preflight
     if (request.method === 'OPTIONS') {
-      if (origin !== ALLOWED_ORIGIN) return new Response(null, { status: 403 });
+      if (!allowed) return new Response(null, { status: 403 });
       return new Response(null, { status: 204, headers: cors });
     }
 
-    // Only accept POST /api/contact from the allowed origin
+    // Only accept POST from an allowed origin
     if (request.method !== 'POST') {
       return json({ success: false, message: 'Method not allowed' }, 405, cors);
     }
-    if (origin !== ALLOWED_ORIGIN) {
+    if (!allowed) {
       return json({ success: false, message: 'Forbidden' }, 403);
     }
 
