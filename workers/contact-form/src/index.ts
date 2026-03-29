@@ -163,8 +163,8 @@ export default {
     }
 
     // ── Rate limit ───────────────────────────────────────────────────────────
-    const allowed = await checkRateLimit(env.CONTACT_RL, ip);
-    if (!allowed) {
+    const withinLimit = await checkRateLimit(env.CONTACT_RL, ip);
+    if (!withinLimit) {
       return json({ success: false, message: 'Too many requests' }, 429, cors);
     }
 
