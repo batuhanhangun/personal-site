@@ -31,12 +31,15 @@
 
   # ── Content Security Policy ────────────────────────────────────────────────
   # script-src:   'self' for Astro's bundled JS; hashes for Astro-inlined
-  #               <script> blocks (injected post-build); Turnstile widget.
+  #               <script> blocks (injected post-build); Turnstile widget
+  #               and Cloudflare analytics scripts.
   # style-src:    'unsafe-inline' required for component-level style=""
   #               attributes (animations etc.). Scoped CSS is external.
-  # connect-src:  'self'; *.workers.dev for contact form Worker and citation
-  #               metrics Worker (replace with specific URLs before deploy).
-  Content-Security-Policy: default-src 'none'; script-src 'self' __SCRIPT_HASHES__ https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://challenges.cloudflare.com https://*.workers.dev; frame-src https://challenges.cloudflare.com; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests; frame-ancestors 'none'
+  # connect-src:  'self'; challenges.cloudflare.com for Turnstile;
+  #               *.workers.dev for contact form + citation metrics Workers
+  #               (replace with specific URLs before deploy).
+  # frame-src:    challenges.cloudflare.com for Turnstile iframe.
+  Content-Security-Policy: default-src 'none'; script-src 'self' __SCRIPT_HASHES__ https://challenges.cloudflare.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://challenges.cloudflare.com https://static.cloudflareinsights.com https://*.workers.dev; frame-src https://challenges.cloudflare.com; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests; frame-ancestors 'none'
 
 # ── Static assets — allow long-lived caching ───────────────────────────────
 /_astro/*
