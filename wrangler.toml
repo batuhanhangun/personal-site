@@ -1,3 +1,10 @@
 name                   = "personal-site"
 compatibility_date     = "2026-03-17"
 pages_build_output_dir = "dist"
+
+# ── Public environment variables (safe to commit) ─────────────────────────────
+# Secret values (TURNSTILE_SECRET_KEY etc.) stay in the Cloudflare dashboard.
+[vars]
+PUBLIC_TURNSTILE_SITE_KEY = "0x4AAAAAACxmCAXasy9ehZlY"
+PUBLIC_CONTACT_FORM_URL   = "https://contact-form.batuhanhangun.workers.dev"
+PUBLIC_METRICS_API_URL    = "https://citation-metrics.batuhanhangun.workers.dev"
