@@ -1,0 +1,40 @@
+---
+---
+
+<button
+  id="scroll-top-btn"
+  class="scroll-top-btn"
+  aria-label="Scroll to top of page"
+  title="Back to top"
+>
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
+<script>
+  const btn = document.getElementById('scroll-top-btn');
+  if (!btn) throw new Error('scroll-top-btn not found');
+
+  /* Show/hide based on scroll depth */
+  window.addEventListener(
+    'scroll',
+    () => btn.classList.toggle('is-visible', window.scrollY > 420),
+    { passive: true },
+  );
+
+  /* Smooth scroll to top */
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>

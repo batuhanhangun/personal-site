@@ -1,0 +1,34 @@
+name             = "citation-metrics"
+main             = "src/index.ts"
+compatibility_date = "2026-03-17"
+
+# ── Cron trigger ──────────────────────────────────────────────────────────────
+# Runs daily at 08:00 UTC.  Add more triggers if desired:
+#   "0 20 * * *"  = 20:00 UTC (end of day)
+[triggers]
+crons = ["0 8 * * *"]
+
+# ── KV namespace ──────────────────────────────────────────────────────────────
+# Create with:
+#   npx wrangler kv namespace create CITATION_METRICS
+# Then replace the id placeholder below with the returned id.
+#
+# Preview namespace (for `wrangler dev`):
+#   npx wrangler kv namespace create CITATION_METRICS --preview
+[[kv_namespaces]]
+binding         = "CITATION_METRICS"
+id              = "<KV_NAMESPACE_ID>"
+preview_id      = "<KV_PREVIEW_NAMESPACE_ID>"
+
+# ── Secrets ───────────────────────────────────────────────────────────────────
+# Set all three via wrangler CLI before deploying:
+#
+#   npx wrangler secret put SERPAPI_KEY
+#   npx wrangler secret put SCOPUS_API_KEY
+#   npx wrangler secret put SCOPUS_AUTHOR_ID
+#
+# These are NOT committed — they live only in the Cloudflare dashboard.
+
+# ── Dev environment overrides ─────────────────────────────────────────────────
+[env.dev]
+name = "citation-metrics-dev"

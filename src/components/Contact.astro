@@ -1,0 +1,507 @@
+---
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+
+/* Turnstile site key — safe to expose publicly */
+const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA'; // dummy for dev
+---
+
+<Section id="contact">
+  <SectionHeading
+    label="06 —"
+    title="Contact"
+    subtitle="Have a project, collaboration, or question in mind? Drop a message."
+  />
+
+  <div class="contact-layout">
+
+    <!-- ── Form ──────────────────────────────────────────────────────────── -->
+    <div class="contact-form-wrap">
+
+      <form id="contact-form" class="contact-form" novalidate autocomplete="on">
+
+        <!-- Honeypot (hidden from real users) -->
+        <div class="hp-field" aria-hidden="true">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <!-- Name -->
+        <div class="field-group">
+          <label class="field-label" for="cf-name">Name</label>
+          <input
+            type="text"
+            id="cf-name"
+            name="name"
+            class="field-input"
+            placeholder="Your name"
+            autocomplete="name"
+            required
+            maxlength="120"
+          />
+          <span class="field-error" id="err-name" aria-live="polite"></span>
+        </div>
+
+        <!-- Email -->
+        <div class="field-group">
+          <label class="field-label" for="cf-email">Email</label>
+          <input
+            type="email"
+            id="cf-email"
+            name="email"
+            class="field-input"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required
+            maxlength="254"
+          />
+          <span class="field-error" id="err-email" aria-live="polite"></span>
+        </div>
+
+        <!-- Message -->
+        <div class="field-group">
+          <label class="field-label" for="cf-message">Message</label>
+          <textarea
+            id="cf-message"
+            name="message"
+            class="field-input field-textarea"
+            placeholder="Your message…"
+            rows="5"
+            required
+            maxlength="4000"
+          ></textarea>
+          <span class="field-error" id="err-message" aria-live="polite"></span>
+        </div>
+
+        <!-- Turnstile widget -->
+        <div
+          class="cf-turnstile"
+          data-sitekey={TURNSTILE_SITE_KEY}
+          data-theme="dark"
+          data-appearance="interaction-only"
+          id="turnstile-widget"
+        ></div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-submit" id="submit-btn">
+          <span class="btn-text">Send Message</span>
+          <span class="btn-spinner" aria-hidden="true"></span>
+        </button>
+
+        <!-- Status banner -->
+        <div class="form-status" id="form-status" role="alert" aria-live="polite"></div>
+
+      </form>
+    </div>
+
+    <!-- ── Sidebar ────────────────────────────────────────────────────────── -->
+    <aside class="contact-sidebar">
+
+      <!-- Email (obfuscated — assembled by JS) -->
+      <div class="sidebar-card">
+        <div class="sidebar-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18"
+               stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <polyline points="2,4 12,13 22,4"/>
+          </svg>
+        </div>
+        <div class="sidebar-info">
+          <p class="sidebar-label">Email</p>
+          <a id="obfuscated-email" class="sidebar-value sidebar-link" href="#" aria-label="Send email">
+            —
+          </a>
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div class="sidebar-card">
+        <div class="sidebar-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18"
+               stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <div class="sidebar-info">
+          <p class="sidebar-label">Location</p>
+          <p class="sidebar-value">Istanbul, Turkey</p>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider" />
+
+      <!-- Social links -->
+      <div class="sidebar-socials">
+        <a href="https://github.com/batuhanhangun" target="_blank" rel="noopener noreferrer"
+           class="social-pill" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="none" width="15" height="15"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+          </svg>
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/bhangun" target="_blank" rel="noopener noreferrer"
+           class="social-pill" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" width="15" height="15"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+            <rect x="2" y="9" width="4" height="12"/>
+            <circle cx="4" cy="4" r="2"/>
+          </svg>
+          LinkedIn
+        </a>
+        <a href="https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ"
+           target="_blank" rel="noopener noreferrer"
+           class="social-pill" aria-label="Google Scholar">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15" aria-hidden="true">
+            <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 10a8 8 0 0 1 7.162 3.44L24 9.5z"/>
+          </svg>
+          Scholar
+        </a>
+      </div>
+
+    </aside>
+
+  </div>
+</Section>
+
+<!-- Turnstile API -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<script>
+  /* ── Email obfuscation ────────────────────────────────────────────────────
+   * The address is stored as Unicode code points — not as a plain string —
+   * so it cannot be extracted by simple HTML/JS scraping or regex bots.
+   * Decoded only at runtime and never written to the DOM as a data attribute.
+   * batuhan@batuhanhangun.com
+   * ─────────────────────────────────────────────────────────────────────── */
+  (function () {
+    const addr = [
+      98,97,116,117,104,97,110,   // batuhan
+      64,                          // @
+      98,97,116,117,104,97,110,   // batuhan
+      104,97,110,                  // han
+      103,117,110,                 // gun
+      46,99,111,109,               // .com
+    ].map(c => String.fromCharCode(c)).join('');
+
+    const el = document.getElementById('obfuscated-email') as HTMLAnchorElement | null;
+    if (el) {
+      el.textContent = addr;
+      el.href        = `mailto:${addr}`;
+      el.setAttribute('aria-label', `Email ${addr}`);
+    }
+  })();
+
+  /* ── Form submission ──────────────────────────────────────────────────── */
+  const form      = document.getElementById('contact-form')  as HTMLFormElement;
+  const submitBtn = document.getElementById('submit-btn')    as HTMLButtonElement;
+  const statusEl  = document.getElementById('form-status')   as HTMLElement;
+
+  function setStatus(msg: string, type: 'success' | 'error' | '') {
+    statusEl.textContent = msg;
+    statusEl.className   = `form-status${type ? ` form-status--${type}` : ''}`;
+  }
+
+  function setFieldError(id: string, msg: string) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = msg;
+  }
+
+  function clearErrors() {
+    ['err-name', 'err-email', 'err-message'].forEach(id => setFieldError(id, ''));
+    setStatus('', '');
+  }
+
+  function setLoading(loading: boolean) {
+    submitBtn.disabled = loading;
+    submitBtn.classList.toggle('is-loading', loading);
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearErrors();
+
+    const data = new FormData(form);
+    const name    = String(data.get('name')    ?? '').trim();
+    const email   = String(data.get('email')   ?? '').trim();
+    const message = String(data.get('message') ?? '').trim();
+    const website = String(data.get('website') ?? '').trim(); // honeypot
+    const token   = String((document.querySelector('[name="cf-turnstile-response"]') as HTMLInputElement | null)?.value ?? '');
+
+    /* Client-side validation */
+    let valid = true;
+    if (!name)    { setFieldError('err-name',    'Name is required');    valid = false; }
+    if (!email)   { setFieldError('err-email',   'Email is required');   valid = false; }
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                   setFieldError('err-email',   'Enter a valid email');  valid = false; }
+    if (!message) { setFieldError('err-message', 'Message is required'); valid = false; }
+    if (!valid) return;
+
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message, website, 'cf-turnstile-response': token }),
+      });
+
+      const json = await res.json() as { ok: boolean; error?: string };
+
+      if (json.ok) {
+        form.reset();
+        // Reset Turnstile widget
+        if (typeof (window as any).turnstile !== 'undefined') {
+          (window as any).turnstile.reset('#turnstile-widget');
+        }
+        setStatus('Message sent! I\'ll be in touch soon.', 'success');
+      } else {
+        setStatus(json.error ?? 'Something went wrong. Please try again.', 'error');
+      }
+    } catch {
+      setStatus('Network error. Please check your connection and try again.', 'error');
+    } finally {
+      setLoading(false);
+    }
+  });
+</script>
+
+<style>
+  /* ── Layout ─────────────────────────────────────────────────────────── */
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .contact-layout {
+      grid-template-columns: 1fr 280px;
+      gap: 3rem;
+      align-items: start;
+    }
+  }
+
+  /* ── Form wrapper ────────────────────────────────────────────────────── */
+  .contact-form-wrap {
+    background: rgba(19, 19, 32, 0.6);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.75rem;
+    padding: 2rem;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  /* ── Honeypot ────────────────────────────────────────────────────────── */
+  .hp-field {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    clip: rect(0 0 0 0);
+  }
+
+  /* ── Field group ─────────────────────────────────────────────────────── */
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .field-label {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: #a0a0b0;
+  }
+
+  .field-input {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.45rem;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.9rem;
+    color: #f0f0f0;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .field-input::placeholder { color: #52526a; }
+  .field-input:focus {
+    border-color: rgba(0, 212, 255, 0.4);
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.07);
+  }
+
+  .field-textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.6;
+  }
+
+  .field-error {
+    font-size: 0.72rem;
+    color: #f87171;
+    min-height: 1em;
+  }
+
+  /* ── Submit button ───────────────────────────────────────────────────── */
+  .btn-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    border: none;
+    background: rgba(0, 212, 255, 0.12);
+    color: #00d4ff;
+    border: 1px solid rgba(0, 212, 255, 0.28);
+    transition: background 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    align-self: flex-start;
+  }
+  .btn-submit:hover:not(:disabled) {
+    background: rgba(0, 212, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 212, 255, 0.12);
+  }
+  .btn-submit:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  /* Spinner — hidden by default, shown when .is-loading */
+  .btn-spinner {
+    display: none;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(0, 212, 255, 0.3);
+    border-top-color: #00d4ff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+  .btn-submit.is-loading .btn-text   { display: none; }
+  .btn-submit.is-loading .btn-spinner { display: block; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Status banner ───────────────────────────────────────────────────── */
+  .form-status {
+    font-size: 0.84rem;
+    line-height: 1.5;
+    min-height: 1.2em;
+    border-radius: 0.4rem;
+    padding: 0;
+    transition: all 0.2s ease;
+  }
+  .form-status--success {
+    color: #4ade80;
+    padding: 0.6rem 0.9rem;
+    background: rgba(74, 222, 128, 0.06);
+    border: 1px solid rgba(74, 222, 128, 0.15);
+  }
+  .form-status--error {
+    color: #f87171;
+    padding: 0.6rem 0.9rem;
+    background: rgba(248, 113, 113, 0.06);
+    border: 1px solid rgba(248, 113, 113, 0.15);
+  }
+
+  /* ── Sidebar ──────────────────────────────────────────────────────────── */
+  .contact-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .sidebar-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 1rem 1.1rem;
+    background: rgba(19, 19, 32, 0.5);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.6rem;
+  }
+
+  .sidebar-icon {
+    color: #52526a;
+    margin-top: 0.1rem;
+    flex-shrink: 0;
+  }
+
+  .sidebar-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .sidebar-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #52526a;
+    margin: 0;
+  }
+
+  .sidebar-value {
+    font-size: 0.85rem;
+    color: #a0a0b0;
+    margin: 0;
+    word-break: break-all;
+  }
+
+  .sidebar-link {
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .sidebar-link:hover { color: #00d4ff; }
+
+  .sidebar-divider {
+    border: none;
+    border-top: 1px solid var(--border-subtle);
+    margin: 0.25rem 0;
+  }
+
+  /* ── Social pills ─────────────────────────────────────────────────────── */
+  .sidebar-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .social-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    color: #a0a0b0;
+    background: rgba(255, 255, 255, 0.04);
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .social-pill:hover {
+    border-color: rgba(0, 212, 255, 0.3);
+    color: #00d4ff;
+  }
+</style>

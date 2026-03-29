@@ -1,0 +1,33 @@
+---
+interface Props {
+  id: string;
+  class?: string;
+  /**
+   * Set true to let the section span full viewport width.
+   * The inner container max-width is still applied via slot content.
+   */
+  fullWidth?: boolean;
+  /**
+   * Set false on the Hero section (already visible on load) to skip the
+   * scroll-triggered fade-in animation applied to below-fold sections.
+   */
+  animate?: boolean;
+}
+
+const { id, class: className = '', fullWidth = false, animate = true } = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={['scroll-mt-20 py-24', className]}
+  data-fade-in={animate ? '' : undefined}
+>
+  {fullWidth
+    ? <slot />
+    : (
+      <div class="max-w-6xl mx-auto px-6">
+        <slot />
+      </div>
+    )
+  }
+</section>

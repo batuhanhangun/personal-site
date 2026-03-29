@@ -1,0 +1,623 @@
+---
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+
+interface SubRole {
+  orgs: string;
+  period: string;
+  type: 'Hybrid' | 'Remote' | 'On-site';
+  taught: string;
+}
+
+interface Exp {
+  role: string;
+  org: string;
+  location: string;
+  flag: string;
+  type: 'Hybrid' | 'Remote' | 'On-site';
+  period: string;
+  current?: boolean;
+  bullets: string[];
+  tags: string[];
+  /** When present, renders an expandable sub-role list instead of flat bullets */
+  subRoles?: SubRole[];
+}
+
+const experiences: Exp[] = [
+  {
+    role: 'Researcher',
+    org: 'Yıldız Technical University',
+    location: 'Istanbul, Turkey',
+    flag: '🇹🇷',
+    type: 'Hybrid',
+    period: '2021 — Present',
+    current: true,
+    bullets: [
+      'Quantum Machine Learning research: hybrid classical–quantum models (ANN + QNN) for renewable energy and smart grid applications',
+      '19 peer-reviewed papers (4 journal + 15 conference), 197 citations',
+      'Presented at 4 international IEEE conferences across 3 countries (USA 🇺🇸, Greece 🇬🇷, UK 🇬🇧)',
+      'GPU-based parallel computing on DOE supercomputing resources — NERSC Perlmutter (Cray EX)',
+    ],
+    tags: ['QML', 'Qiskit', 'Python', 'PyTorch', 'HPC', 'NERSC'],
+  },
+  {
+    role: 'Software Engineer & Researcher',
+    org: 'PIXSelect Teknoloji A.Ş.',
+    location: 'Istanbul, Turkey',
+    flag: '🇹🇷',
+    type: 'Hybrid',
+    period: '2023 — 2024',
+    bullets: [
+      'Developed web-based data annotation and training tool for industrial vision systems',
+      'Implemented computer vision, backend, and AWS modules using Python and Bash on Linux',
+      'Led codebase refactoring to reduce technical debt',
+    ],
+    tags: ['Python', 'Computer Vision', 'AWS', 'Linux', 'Flask'],
+  },
+  {
+    role: 'Visiting Researcher',
+    org: 'BTU Cottbus-Senftenberg',
+    location: 'Cottbus, Germany',
+    flag: '🇩🇪',
+    type: 'On-site',
+    period: '2023',
+    bullets: [
+      'Contributed to an industry-targeted digital twin project with international research partners',
+    ],
+    tags: ['Digital Twin', 'Research', 'Industry Collaboration'],
+  },
+  {
+    role: 'University Lecturer',
+    org: 'Multiple Universities',
+    location: 'Turkey',
+    flag: '🇹🇷',
+    type: 'Hybrid',
+    period: '2022 — 2026',
+    subRoles: [
+      {
+        orgs: 'Ankara Bilim University',
+        period: 'Sep 2025 — Jan 2026',
+        type: 'Remote',
+        taught: 'History of video games, genres, design tools, and practical applications with C++',
+      },
+      {
+        orgs: 'İstanbul Aydın University',
+        period: 'Jan 2025 — Jun 2025',
+        type: 'On-site',
+        taught: 'Digital image processing and practical applications with Python',
+      },
+      {
+        orgs: 'Nişantaşı Univ. · Ankara Bilim Univ. · İstinye Univ.',
+        period: '2022 — 2024',
+        type: 'Hybrid',
+        taught: 'Parallel computing (C, C++, MATLAB) and AI/ML fundamentals (Python)',
+      },
+    ],
+    bullets: [
+      'Adopted project-based and presentation-based learning approach across all institutions',
+    ],
+    tags: ['C/C++', 'Python', 'MATLAB', 'AI/ML', 'Image Processing', 'Teaching'],
+  },
+  {
+    role: 'Software Engineer',
+    org: 'Polyga Inc.',
+    location: 'Vancouver, Canada',
+    flag: '🇨🇦',
+    type: 'Remote',
+    period: '2021 — 2022',
+    bullets: [
+      'SDK development for 3D scanning devices using C++ (11, 14)',
+      'Camera calibration testing using C++ and MATLAB',
+    ],
+    tags: ['C++', 'MATLAB', 'SDK', '3D Scanning'],
+  },
+  {
+    role: 'Research & Teaching Assistant',
+    org: 'Nişantaşı University',
+    location: 'Istanbul, Turkey',
+    flag: '🇹🇷',
+    type: 'On-site',
+    period: '2016 — 2021',
+    bullets: [
+      'Course support, conference organization, and journal editorial activities',
+    ],
+    tags: ['Research', 'Teaching', 'Academia'],
+  },
+];
+
+const typeColor: Record<Exp['type'], string> = {
+  Hybrid:    'type-hybrid',
+  Remote:    'type-remote',
+  'On-site': 'type-onsite',
+};
+---
+
+<Section id="experience">
+  <SectionHeading label="02 —" title="Experience" />
+
+  <!--
+    Desktop: CSS Grid (3 cols: 1fr | 3rem | 1fr).
+    Each .tl-row uses display:contents so its two children (.tl-dot-col,
+    .tl-card-wrap) become direct grid children with explicit grid-column/row.
+
+    Mobile: .tl is display:block, .tl-row is position:relative flex,
+    dot is absolute-positioned on the left, card fills remaining width.
+  -->
+  <div class="tl" role="list">
+    {experiences.map((exp, i) => {
+      const isLeft = i % 2 === 0;
+      const row    = i + 1;
+      return (
+        <div
+          class:list={['tl-row', isLeft ? 'is-left' : 'is-right']}
+          role="listitem"
+          style={`--r:${row}`}
+        >
+          <!-- ── Center dot ──────────────────────────────────────── -->
+          <div class="tl-dot-col">
+            <div class:list={['tl-dot', exp.current && 'tl-dot-current']} aria-hidden="true">
+              {exp.current && <div class="tl-dot-ring" />}
+            </div>
+          </div>
+
+          <!-- ── Card ───────────────────────────────────────────── -->
+          <article class="tl-card-wrap">
+            <div class="exp-card">
+
+              <!-- header -->
+              <header class="exp-header">
+                <div class="exp-header-top">
+                  <div>
+                    <h3 class="exp-role">{exp.role}</h3>
+                    <p class="exp-org">
+                      <span class="exp-flag" aria-label={exp.location}>{exp.flag}</span>
+                      {exp.org}
+                    </p>
+                  </div>
+                  <div class="exp-meta-right">
+                    {exp.current && (
+                      <span class="current-badge" aria-label="Current position">
+                        <span class="current-dot" aria-hidden="true" />
+                        Current
+                      </span>
+                    )}
+                    {/* Hide the single type pill when sub-roles carry their own types */}
+                    {!exp.subRoles && (
+                      <span class:list={['type-pill', typeColor[exp.type]]}>
+                        {exp.type}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div class="exp-period-row">
+                  <span class="exp-period">{exp.period}</span>
+                  <span class="exp-location">{exp.location}</span>
+                </div>
+              </header>
+
+              <div class="exp-divider" aria-hidden="true" />
+
+              {/* ── Sub-roles (e.g. multi-institution lecturer) ── */}
+              {exp.subRoles && (
+                <ul class="sub-roles" aria-label={`Positions at ${exp.org}`}>
+                  {exp.subRoles.map(sr => (
+                    <li
+                      class="sub-role"
+                      style={`--sub-accent: ${
+                        sr.type === 'Remote'
+                          ? 'rgba(0,212,255,0.45)'
+                          : sr.type === 'Hybrid'
+                          ? 'rgba(168,85,247,0.45)'
+                          : 'rgba(255,255,255,0.18)'
+                      }`}
+                    >
+                      <div class="sub-role-header">
+                        <span class="sub-role-orgs">{sr.orgs}</span>
+                        <div class="sub-role-meta">
+                          <span class:list={['type-pill', typeColor[sr.type]]}>
+                            {sr.type}
+                          </span>
+                          <span class="sub-role-period">{sr.period}</span>
+                        </div>
+                      </div>
+                      <p class="sub-role-taught">
+                        <span class="sub-role-label">Taught: </span>{sr.taught}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {/* ── Regular bullets (always shown; serves as shared note when subRoles present) ── */}
+              <ul class="exp-bullets" aria-label={`Responsibilities at ${exp.org}`}>
+                {exp.bullets.map(b => (
+                  <li class="exp-bullet">{b}</li>
+                ))}
+              </ul>
+
+              <!-- tags -->
+              <footer class="exp-tags">
+                {exp.tags.map(t => (
+                  <span class="tag">{t}</span>
+                ))}
+              </footer>
+            </div>
+          </article>
+        </div>
+      );
+    })}
+  </div>
+</Section>
+
+<style>
+  /* ════════════════════════════════════════════════════════════════
+     MOBILE — left-side linear timeline
+  ════════════════════════════════════════════════════════════════ */
+
+  .tl {
+    position: relative;
+    padding-left: 2.5rem;
+  }
+
+  /* Vertical spine */
+  .tl::before {
+    content: '';
+    position: absolute;
+    left: 9px;
+    top: 1.25rem;
+    bottom: 1.25rem;
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 212, 255, 0.55) 0%,
+      rgba(168, 85, 247, 0.25) 75%,
+      transparent 100%
+    );
+  }
+
+  .tl-row {
+    display: flex;
+    position: relative;
+    margin-bottom: 2.5rem;
+  }
+  .tl-row:last-child { margin-bottom: 0; }
+
+  /* Dot: absolute on mobile, left side */
+  .tl-dot-col {
+    position: absolute;
+    left: -2.5rem;
+    top: 1.05rem;
+    width: 2.5rem;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+  }
+
+  .tl-dot {
+    position: relative;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #00d4ff;
+    border: 2px solid #0a0a0f;
+    box-shadow: 0 0 0 1px rgba(0, 212, 255, 0.35);
+    flex-shrink: 0;
+  }
+
+  /* Active / current dot */
+  .tl-dot.tl-dot-current {
+    width: 13px;
+    height: 13px;
+    background: #00d4ff;
+    box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.25), 0 0 12px rgba(0, 212, 255, 0.4);
+  }
+
+  .tl-dot-ring {
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    animation: dotPulse 2.2s ease-in-out infinite;
+  }
+
+  @keyframes dotPulse {
+    0%, 100% { transform: scale(1);   opacity: 0.7; }
+    50%       { transform: scale(1.5); opacity: 0;   }
+  }
+
+  /* Card wrapper: flex-1 on mobile */
+  .tl-card-wrap { flex: 1; }
+
+  /* ════════════════════════════════════════════════════════════════
+     DESKTOP (lg+) — center timeline, alternating left/right
+  ════════════════════════════════════════════════════════════════ */
+
+  @media (min-width: 1024px) {
+    .tl {
+      display: grid;
+      grid-template-columns: 1fr 3.5rem 1fr;
+      row-gap: 3.5rem;
+      padding-left: 0;
+    }
+
+    /* Spine centered on the 3.5rem middle column */
+    .tl::before {
+      left: 50%;
+      transform: translateX(-50%);
+      top: 1.5rem;
+      bottom: 1.5rem;
+    }
+
+    /* Each row dissolves into grid children */
+    .tl-row {
+      display: contents;
+      margin-bottom: 0;
+    }
+
+    /* Dot: centered in middle column, stacked in its grid row */
+    .tl-dot-col {
+      position: static;
+      grid-column: 2;
+      grid-row: var(--r);
+      display: flex;
+      justify-content: center;
+      padding-top: 1.3rem;
+      z-index: 1;
+    }
+
+    /* Card column: left for even (is-left), right for odd (is-right) */
+    .tl-row.is-left  .tl-card-wrap {
+      grid-column: 1;
+      grid-row: var(--r);
+      padding-right: 1.75rem;
+    }
+    .tl-row.is-right .tl-card-wrap {
+      grid-column: 3;
+      grid-row: var(--r);
+      padding-left: 1.75rem;
+    }
+
+    /* Horizontal connector: thin line from card edge to dot */
+    .tl-row.is-left .exp-card::after,
+    .tl-row.is-right .exp-card::before {
+      content: '';
+      position: absolute;
+      top: 2rem;
+      width: 1.75rem;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(0, 212, 255, 0.25)
+      );
+    }
+    .tl-row.is-left  .exp-card::after  { right: -1.75rem; }
+    .tl-row.is-right .exp-card::before { left: -1.75rem; background: linear-gradient(to left, transparent, rgba(0, 212, 255, 0.25)); }
+  }
+
+  /* ════════════════════════════════════════════════════════════════
+     CARD
+  ════════════════════════════════════════════════════════════════ */
+
+  .exp-card {
+    position: relative;
+    padding: 1.4rem 1.5rem;
+    border-radius: 0.75rem;
+    background: rgba(19, 19, 32, 0.65);
+    border: 1px solid var(--border-subtle);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .exp-card:hover {
+    border-color: rgba(0, 212, 255, 0.2);
+    box-shadow: 0 6px 28px rgba(0, 212, 255, 0.06);
+    transform: translateY(-2px);
+  }
+
+  /* ── Header ───────────────────────────────────────────────────── */
+  .exp-header { margin-bottom: 0.9rem; }
+
+  .exp-header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .exp-role {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #f0f0f0;
+    line-height: 1.25;
+    margin: 0 0 0.25rem;
+  }
+
+  .exp-org {
+    font-size: 0.83rem;
+    color: #a0a0b0;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0;
+    flex-wrap: wrap;
+  }
+
+  .exp-flag {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .exp-meta-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.35rem;
+    flex-shrink: 0;
+  }
+
+  /* "Current" badge */
+  .current-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.15rem 0.55rem;
+    border-radius: 9999px;
+    font-size: 0.67rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #00d4ff;
+    background: rgba(0, 212, 255, 0.09);
+    border: 1px solid rgba(0, 212, 255, 0.22);
+  }
+  .current-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #00d4ff;
+    animation: dotPulse 1.8s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  /* Type pill */
+  .type-pill {
+    font-size: 0.65rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid;
+  }
+  .type-hybrid  { color: #a855f7; background: rgba(168,85,247,0.07); border-color: rgba(168,85,247,0.2); }
+  .type-remote  { color: #00d4ff; background: rgba(0,212,255,0.07);  border-color: rgba(0,212,255,0.2);  }
+  .type-onsite  { color: #a0a0b0; background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); }
+
+  /* Period + location row */
+  .exp-period-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .exp-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: #00d4ff;
+    letter-spacing: 0.03em;
+  }
+  .exp-location {
+    font-size: 0.78rem;
+    color: #52526a;
+  }
+
+  /* ── Divider ──────────────────────────────────────────────────── */
+  .exp-divider {
+    height: 1px;
+    background: var(--border-subtle);
+    margin: 0.9rem 0;
+  }
+
+  /* ── Bullets ──────────────────────────────────────────────────── */
+  .exp-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .exp-bullet {
+    position: relative;
+    padding-left: 1.1rem;
+    font-size: 0.87rem;
+    color: #a0a0b0;
+    line-height: 1.6;
+  }
+  .exp-bullet::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    top: 0.05rem;
+    color: rgba(0, 212, 255, 0.5);
+    font-size: 0.65rem;
+    line-height: 1.6;
+  }
+
+  /* ── Tags ─────────────────────────────────────────────────────── */
+  .exp-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  /* ── Sub-roles (multi-institution cards) ──────────────────────── */
+  .sub-roles {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .sub-role {
+    border-left: 2px solid var(--sub-accent);
+    border-radius: 0 0.4rem 0.4rem 0;
+    padding: 0.6rem 0.75rem;
+    background: rgba(255, 255, 255, 0.025);
+    transition: background 0.15s ease;
+  }
+  .sub-role:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .sub-role-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.3rem;
+    flex-wrap: wrap;
+  }
+
+  .sub-role-orgs {
+    font-size: 0.83rem;
+    font-weight: 500;
+    color: #d0d8e8;
+    line-height: 1.35;
+  }
+
+  .sub-role-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .sub-role-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: #52526a;
+    white-space: nowrap;
+  }
+
+  .sub-role-taught {
+    font-size: 0.8rem;
+    color: #a0a0b0;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .sub-role-label {
+    color: #52526a;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-right: 0.25rem;
+  }
+</style>

@@ -1,0 +1,160 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="404 — Page Not Found | Batuhan Hangün"
+  description="The page you're looking for doesn't exist."
+>
+  <main class="not-found">
+
+    <!-- Orbital decoration -->
+    <div class="nf-orbital" aria-hidden="true">
+      <svg viewBox="0 0 260 260" width="260" height="260" fill="none">
+        <defs>
+          <filter id="nf-glow" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Rings -->
+        <ellipse cx="130" cy="130" rx="105" ry="38"
+          stroke="rgba(0,212,255,0.15)" stroke-width="0.8"
+          filter="url(#nf-glow)"/>
+        <ellipse cx="130" cy="130" rx="95" ry="33"
+          stroke="rgba(168,85,247,0.2)" stroke-width="0.8"
+          stroke-dasharray="4 7"
+          transform="rotate(55 130 130)"
+          filter="url(#nf-glow)"/>
+
+        <!-- Core — pulsing -->
+        <circle cx="130" cy="130" r="18" fill="rgba(0,212,255,0.04)">
+          <animate attributeName="r" values="15;22;15" dur="4s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="1;0.4;1" dur="4s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="130" cy="130" r="5" fill="#00d4ff" filter="url(#nf-glow)">
+          <animate attributeName="r" values="4;7;4" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="1;0.5;1" dur="3s" repeatCount="indefinite"/>
+        </circle>
+
+        <!-- 404 text in the SVG -->
+        <text
+          x="130" y="138"
+          text-anchor="middle"
+          font-family="'JetBrains Mono', monospace"
+          font-size="42"
+          font-weight="700"
+          letter-spacing="-2"
+          fill="#f0f0f0"
+          opacity="0.9"
+        >404</text>
+      </svg>
+    </div>
+
+    <!-- Copy -->
+    <div class="nf-copy">
+      <p class="nf-label">Quantum State Collapsed</p>
+      <h1 class="nf-heading">Page Not Found</h1>
+      <p class="nf-body">
+        The superposition you were observing has collapsed into the void.
+        The URL may be incorrect or the page may have been removed.
+      </p>
+
+      <div class="nf-actions">
+        <a href="/" class="btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 12H5M12 5l-7 7 7 7"/>
+          </svg>
+          Return to Base State
+        </a>
+        <a href="/#contact" class="btn-secondary">Get in Touch</a>
+      </div>
+
+      <!-- Quantum state notation hint -->
+      <p class="nf-hint" aria-hidden="true">
+        <span class="nf-state">|ψ⟩ = α|found⟩ + β|lost⟩ → |lost⟩</span>
+      </p>
+    </div>
+
+  </main>
+</Layout>
+
+<style>
+  .not-found {
+    min-height: calc(100vh - 4rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    padding: 4rem 1.5rem;
+    text-align: center;
+  }
+
+  @media (min-width: 640px) {
+    .not-found {
+      flex-direction: row;
+      text-align: left;
+      gap: 4rem;
+    }
+  }
+
+  /* ── Orbital visual ───────────────────────────────────────────────────── */
+  .nf-orbital {
+    flex-shrink: 0;
+    opacity: 0.85;
+  }
+
+  /* ── Copy block ───────────────────────────────────────────────────────── */
+  .nf-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 36rem;
+  }
+
+  .nf-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #00d4ff;
+    margin: 0;
+  }
+
+  .nf-heading {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: #f0f0f0;
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .nf-body {
+    font-size: 0.95rem;
+    color: #a0a0b0;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .nf-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .nf-hint {
+    margin-top: 0.5rem;
+  }
+
+  .nf-state {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: #3a3a52;
+    letter-spacing: 0.03em;
+  }
+</style>

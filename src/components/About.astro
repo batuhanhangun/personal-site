@@ -1,0 +1,257 @@
+---
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+
+const journals = [
+  { name: 'Information Fusion',            if: 'IF ~14' },
+  { name: 'Engineering Applications of AI',if: 'IF ~8'  },
+  { name: 'Energy',                         if: 'IF ~9'  },
+  { name: 'IEEE Robotics & Automation Letters', if: 'IEEE' },
+];
+---
+
+<Section id="about">
+  <SectionHeading label="01 —" title="About" />
+
+  <div class="grid lg:grid-cols-[1fr_320px] gap-12 xl:gap-16 items-start">
+
+    <!-- ── Bio text ──────────────────────────────────────────────────────── -->
+    <div class="bio-col space-y-6 text-[1.05rem] leading-[1.9]">
+      <p class="text-dim">
+        I am a researcher and engineer working at the intersection of{' '}
+        <span class="hl">quantum computing, machine learning,
+        and high-performance computing</span>. Currently pursuing my{' '}
+        <span class="hl-name">PhD in Computer Engineering
+        at Yıldız Technical University</span>, my research focuses on
+        developing{' '}
+        <span class="hl-strong">hybrid classical-quantum neural network
+        architectures</span>{' '}
+        for renewable energy and smart grid applications.
+      </p>
+
+      <p class="text-dim">
+        My work has been recognized with a competitive{' '}
+        <span class="hl-strong">NERSC Director's Discretionary
+        Reserve allocation</span>{' '}
+        on the{' '}
+        <span class="hl-strong">Perlmutter supercomputer</span>{' '}
+        at{' '}
+        <span class="hl">Lawrence Berkeley National Laboratory</span>{' '}
+        (U.S. Department of Energy), where I run{' '}
+        <span class="hl">quantum machine learning experiments
+        at scale</span>.
+      </p>
+
+      <p class="text-dim">
+        I serve as a peer reviewer for{' '}
+        <span class="hl-strong">16+ international journals
+        and conferences</span>, including high-impact publications such as{' '}
+        <span class="hl-journal">Information Fusion (IF&nbsp;~14)</span>,{' '}
+        <span class="hl-journal">Engineering Applications of AI (IF&nbsp;~8)</span>,{' '}
+        <span class="hl-journal">Energy (IF&nbsp;~9)</span>, and{' '}
+        <span class="hl-journal">IEEE Robotics and Automation Letters</span>.
+      </p>
+    </div>
+
+    <!-- ── Highlights sidebar ─────────────────────────────────────────────── -->
+    <aside class="space-y-4" aria-label="Key highlights">
+
+      <!-- NERSC allocation card -->
+      <div class="highlight-card">
+        <div class="flex items-start gap-3">
+          <div class="icon-wrap" aria-hidden="true">
+            <!-- Chip / HPC icon -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.7"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <rect x="7" y="7" width="10" height="10" rx="1"/>
+              <path d="M7 9H3M7 12H3M7 15H3M17 9h4M17 12h4M17 15h4M9 7V3M12 7V3M15 7V3M9 17v4M12 17v4M15 17v4"/>
+            </svg>
+          </div>
+          <div class="min-w-0">
+            <p class="card-title">NERSC Allocation</p>
+            <p class="card-body">
+              Director's Discretionary Reserve on{' '}
+              <span class="text-heading font-medium">Perlmutter</span>{' '}
+              (Cray EX), Lawrence Berkeley National Laboratory
+            </p>
+            <span class="doe-badge">U.S. Dept. of Energy</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Peer review card -->
+      <div class="highlight-card">
+        <div class="flex items-start gap-3">
+          <div class="icon-wrap" aria-hidden="true">
+            <!-- Document-check icon -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.7"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <polyline points="9 15 11 17 15 13"/>
+            </svg>
+          </div>
+          <div class="min-w-0">
+            <p class="card-title">Peer Reviewer</p>
+            <p class="card-body mb-3">16+ journals &amp; conferences</p>
+            <ul class="space-y-1.5">
+              {journals.map(j => (
+                <li class="journal-row">
+                  <span class="journal-name">{j.name}</span>
+                  <span class="journal-if">{j.if}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Affiliation card -->
+      <div class="highlight-card">
+        <div class="flex items-start gap-3">
+          <div class="icon-wrap" aria-hidden="true">
+            <!-- Mortarboard icon -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.7"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <div class="min-w-0">
+            <p class="card-title">Current Position</p>
+            <p class="card-body">PhD Candidate, Computer Engineering</p>
+            <p class="text-heading font-medium text-sm mt-0.5">
+              Yıldız Technical University
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+</Section>
+
+<style>
+  /* ── Left accent rule ─────────────────────────────────────────────────── */
+  .bio-col {
+    position: relative;
+    padding-left: 1.75rem;
+  }
+  .bio-col::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+    bottom: 0.25rem;
+    width: 2px;
+    border-radius: 1px;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 212, 255, 0.55) 0%,
+      rgba(168, 85, 247, 0.25) 100%
+    );
+  }
+
+  /* ── Inline text highlights ───────────────────────────────────────────── */
+  .hl {
+    color: #d0d8e8;
+    font-weight: 500;
+  }
+  .hl-name {
+    color: #d0d8e8;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+  .hl-strong {
+    color: #00d4ff;
+    font-weight: 500;
+  }
+  .hl-journal {
+    color: rgba(168, 85, 247, 0.9);
+    font-weight: 500;
+  }
+
+  /* ── Highlight cards ──────────────────────────────────────────────────── */
+  .highlight-card {
+    padding: 1.1rem 1.25rem;
+    border-radius: 0.625rem;
+    background: rgba(19, 19, 32, 0.6);
+    border: 1px solid var(--border-subtle);
+    transition: border-color 0.2s ease;
+  }
+  .highlight-card:hover {
+    border-color: rgba(0, 212, 255, 0.18);
+  }
+
+  .icon-wrap {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    background: rgba(0, 212, 255, 0.08);
+    color: #00d4ff;
+    margin-top: 0.05rem;
+  }
+
+  .card-title {
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #00d4ff;
+    margin-bottom: 0.35rem;
+  }
+  .card-body {
+    font-size: 0.85rem;
+    color: #a0a0b0;
+    line-height: 1.55;
+  }
+
+  .doe-badge {
+    display: inline-block;
+    margin-top: 0.6rem;
+    padding: 0.15rem 0.55rem;
+    font-size: 0.65rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 9999px;
+    background: rgba(168, 85, 247, 0.09);
+    color: #a855f7;
+    border: 1px solid rgba(168, 85, 247, 0.18);
+  }
+
+  /* ── Journal rows ─────────────────────────────────────────────────────── */
+  .journal-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.3rem 0.55rem;
+    border-radius: 0.35rem;
+    background: rgba(255, 255, 255, 0.025);
+  }
+  .journal-name {
+    font-size: 0.78rem;
+    color: #a0a0b0;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .journal-if {
+    font-size: 0.68rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: #a855f7;
+    white-space: nowrap;
+    flex-shrink: 0;
+    opacity: 0.85;
+  }
+</style>

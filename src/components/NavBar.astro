@@ -1,0 +1,137 @@
+---
+const links = [
+  { href: '#about',        label: 'About'        },
+  { href: '#experience',   label: 'Experience'   },
+  { href: '#publications', label: 'Publications' },
+  { href: '#skills',       label: 'Skills'       },
+  { href: '#peer-review',  label: 'Peer Review'  },
+  { href: '#contact',      label: 'Contact'      },
+];
+---
+
+<header id="navbar" class="fixed top-0 left-0 right-0 z-50">
+  <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+
+    <!-- Logo -->
+    <a
+      href="#"
+      class="font-mono text-cyan text-xl font-bold tracking-widest select-none hover:opacity-75 transition-opacity"
+    >
+      BH
+    </a>
+
+    <!-- Desktop links -->
+    <ul class="hidden md:flex items-center gap-8" role="list">
+      {links.map(({ href, label }) => (
+        <li>
+          <a
+            href={href}
+            class="nav-link text-dim text-sm font-medium tracking-wide transition-colors duration-200"
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Hamburger button (mobile) -->
+    <button
+      id="menu-btn"
+      class="md:hidden flex flex-col justify-center gap-[6px] w-10 h-10 -mr-2 rounded focus-visible:outline-none"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="ham block h-px w-6 bg-heading origin-center transition-all duration-300"></span>
+      <span class="ham block h-px w-6 bg-heading origin-center transition-all duration-300"></span>
+      <span class="ham block h-px w-4 bg-heading origin-center transition-all duration-300"></span>
+    </button>
+  </nav>
+
+  <!-- Mobile drawer -->
+  <div
+    id="mobile-menu"
+    class="hidden md:hidden"
+    role="navigation"
+    aria-label="Mobile navigation"
+  >
+    <ul
+      class="flex flex-col gap-1 max-w-6xl mx-auto px-6 pb-5 pt-1"
+      role="list"
+    >
+      {links.map(({ href, label }) => (
+        <li>
+          <a
+            href={href}
+            class="mobile-nav-link block py-2 text-dim font-medium hover:text-cyan transition-colors duration-200"
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</header>
+
+<script>
+  /* ── Scroll shadow ─────────────────────────────────────────────────────── */
+  const navbar = document.getElementById('navbar')!;
+
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('nav-scrolled', window.scrollY > 24);
+  }, { passive: true });
+
+  /* ── Hamburger toggle ──────────────────────────────────────────────────── */
+  const btn    = document.getElementById('menu-btn')!;
+  const menu   = document.getElementById('mobile-menu')!;
+  const [l1, l2, l3] = btn.querySelectorAll<HTMLElement>('.ham');
+
+  let isOpen = false;
+
+  function setMenuOpen(open: boolean) {
+    isOpen = open;
+    btn.setAttribute('aria-expanded', String(open));
+
+    if (open) {
+      menu.classList.remove('hidden');
+      // Animate lines into ×
+      l1.style.transform = 'translateY(7px) rotate(45deg)';
+      l2.style.opacity   = '0';
+      l3.style.cssText   = 'width:1.5rem; transform:translateY(-7px) rotate(-45deg)';
+    } else {
+      menu.classList.add('hidden');
+      l1.style.transform = '';
+      l2.style.opacity   = '';
+      l3.style.cssText   = '';
+    }
+  }
+
+  btn.addEventListener('click', () => setMenuOpen(!isOpen));
+
+  // Close on any mobile link click
+  menu.querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', () => setMenuOpen(false))
+  );
+
+  /* ── Active section via IntersectionObserver ───────────────────────────── */
+  const sections  = document.querySelectorAll<HTMLElement>('section[id]');
+  const navLinks  = document.querySelectorAll<HTMLElement>('.nav-link, .mobile-nav-link');
+
+  const setActive = (id: string) => {
+    navLinks.forEach(link => {
+      const matches = link.getAttribute('href') === `#${id}`;
+      link.classList.toggle('active', matches);
+    });
+  };
+
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      });
+    },
+    { threshold: 0.3, rootMargin: '-64px 0px -30% 0px' }
+  );
+
+  sections.forEach(s => observer.observe(s));
+</script>

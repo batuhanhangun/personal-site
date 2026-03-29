@@ -1,0 +1,141 @@
+---
+import '../styles/global.css';
+import NavBar from '../components/NavBar.astro';
+
+interface Props {
+  title?:       string;
+  description?: string;
+  /** Absolute URL to a 1200×630 OG image. Defaults to /og-image.png */
+  ogImage?:     string;
+}
+
+const {
+  title       = 'Batuhan Hangün — Quantum ML Researcher & HPC/AI Engineer',
+  description = 'PhD Candidate at Yıldız Technical University. Research at the intersection of quantum machine learning, HPC, and applied AI.',
+  ogImage     = '/og-image.png',
+} = Astro.props;
+
+const siteUrl      = Astro.site?.toString().replace(/\/$/, '') ?? 'https://batuhanhangun.com';
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const ogImageUrl   = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+
+/* ── JSON-LD Person schema ──────────────────────────────────────────────── */
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type':    'Person',
+  name:       'Batuhan Hangün',
+  url:        siteUrl,
+  sameAs: [
+    'https://github.com/batuhanhangun',
+    'https://www.linkedin.com/in/bhangun',
+    'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ',
+    'https://turqubit.com',
+  ],
+  jobTitle:   'PhD Candidate in Computer Engineering',
+  worksFor: {
+    '@type': 'Organization',
+    name:    'Yıldız Technical University',
+  },
+  description: 'Quantum Machine Learning Researcher and HPC/AI Engineer',
+  knowsAbout: [
+    'Quantum Machine Learning',
+    'Quantum Computing',
+    'High-Performance Computing',
+    'GPU Computing',
+    'Applied Artificial Intelligence',
+    'Computer Vision',
+    'OpenMP',
+    'CUDA',
+  ],
+  hasOccupation: {
+    '@type':        'Occupation',
+    name:           'Researcher',
+    occupationLocation: { '@type': 'City', name: 'Istanbul' },
+  },
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- ── Primary SEO ──────────────────────────────────────────────────── -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords"    content="quantum machine learning, HPC, high-performance computing, GPU computing, CUDA, OpenMP, quantum computing, Qiskit, PennyLane, PhD researcher, AI engineer, Yıldız Technical University, Batuhan Hangün" />
+    <meta name="author"      content="Batuhan Hangün" />
+    <meta name="robots"      content="index, follow, max-image-preview:large" />
+    <link rel="canonical"    href={canonicalUrl} />
+    <link rel="sitemap"      type="application/xml" href="/sitemap.xml" />
+
+    <!-- ── Open Graph ───────────────────────────────────────────────────── -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content={canonicalUrl} />
+    <meta property="og:title"       content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image"       content={ogImageUrl} />
+    <meta property="og:image:width"  content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name"   content="Batuhan Hangün" />
+    <meta property="og:locale"      content="en_US" />
+
+    <!-- ── Twitter / X Card ─────────────────────────────────────────────── -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image"       content={ogImageUrl} />
+
+    <!-- ── Structured Data ──────────────────────────────────────────────── -->
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
+    <!-- ── Favicons ─────────────────────────────────────────────────────── -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- ── Theme / PWA ──────────────────────────────────────────────────── -->
+    <meta name="theme-color" content="#0a0a0f" />
+
+    <!-- ── DNS prefetch for external domains ────────────────────────────── -->
+    <link rel="dns-prefetch" href="https://challenges.cloudflare.com" />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
+    <!-- ── Fonts ─────────────────────────────────────────────────────────── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <NavBar />
+    <slot />
+  </body>
+</html>
+
+<!-- Scroll-triggered section animations + scroll-to-top visibility -->
+<script>
+  /* Respect user preference — skip all motion if requested */
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('js-animations');
+
+    const fadeObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            fadeObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: '-40px 0px' },
+    );
+
+    document.querySelectorAll('[data-fade-in]').forEach(el => fadeObserver.observe(el));
+  }
+</script>

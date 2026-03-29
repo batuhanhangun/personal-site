@@ -1,0 +1,45 @@
+# Cloudflare Pages HTTP response headers
+# Docs: https://developers.cloudflare.com/pages/configuration/headers/
+#
+# NOTE: The __SCRIPT_HASHES__ placeholder in script-src is replaced at
+# build time by scripts/postbuild-csp.mjs with SHA-256 hashes of every
+# inline <script> Astro generates. Never edit that token by hand.
+#
+# BEFORE DEPLOYING: Replace https://*.workers.dev in connect-src with
+# your specific citation-metrics worker URL, e.g.:
+#   https://citation-metrics.<account>.workers.dev
+
+/*
+  # ── Transport security ─────────────────────────────────────────────────────
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+  # ── MIME sniffing ──────────────────────────────────────────────────────────
+  X-Content-Type-Options: nosniff
+
+  # ── Clickjacking — both headers for maximum browser coverage ──────────────
+  X-Frame-Options: DENY
+
+  # ── Legacy XSS filter (IE / old Chrome) ───────────────────────────────────
+  X-XSS-Protection: 1; mode=block
+
+  # ── Referrer ───────────────────────────────────────────────────────────────
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # ── Permissions: disable APIs this site never uses ─────────────────────────
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+
+  # ── Content Security Policy ────────────────────────────────────────────────
+  # script-src:   'self' for Astro's bundled JS; hashes for Astro-inlined
+  #               <script> blocks (injected post-build); Turnstile widget.
+  # style-src:    'unsafe-inline' required for component-level style=""
+  #               attributes (animations etc.). Scoped CSS is external.
+  # connect-src:  'self' for /api/contact; *.workers.dev for citation
+  #               metrics Worker (replace with specific URL before deploy).
+  Content-Security-Policy: default-src 'none'; script-src 'self' __SCRIPT_HASHES__ https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://challenges.cloudflare.com https://*.workers.dev; frame-src https://challenges.cloudflare.com; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests; frame-ancestors 'none'
+
+# ── Static assets — allow long-lived caching ───────────────────────────────
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/favicon.*
+  Cache-Control: public, max-age=86400

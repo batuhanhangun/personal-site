@@ -1,0 +1,230 @@
+---
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+
+interface Journal {
+  name: string;
+  /** Impact factor label, e.g. "IF~14". Adds a highlighted badge. */
+  if?: string;
+}
+
+interface PublisherGroup {
+  publisher: string;
+  /** Small accent dot colour for the publisher label */
+  dot: string;
+  journals: Journal[];
+}
+
+const groups: PublisherGroup[] = [
+  {
+    publisher: 'Elsevier',
+    dot: '#f59e0b',
+    journals: [
+      { name: 'Information Fusion',           if: 'IF~14' },
+      { name: 'Engineering Applications of AI', if: 'IF~8' },
+      { name: 'Energy',                        if: 'IF~9'  },
+      { name: 'Energy Strategy Reviews' },
+      { name: 'Energy Reports'          },
+      { name: 'Journal of Energy Storage'},
+      { name: 'Sustainable Cities and Society' },
+      { name: 'Ocean Engineering'        },
+      { name: 'Heliyon'                  },
+      { name: 'Next Energy'              },
+      { name: 'Next Research'            },
+      { name: 'Unconventional Resources' },
+    ],
+  },
+  {
+    publisher: 'IEEE',
+    dot: '#00d4ff',
+    journals: [
+      { name: 'Robotics and Automation Letters' },
+    ],
+  },
+  {
+    publisher: 'Springer Nature',
+    dot: '#4ade80',
+    journals: [
+      { name: 'SN Computer Science' },
+    ],
+  },
+  {
+    publisher: 'Conferences',
+    dot: '#a855f7',
+    journals: [
+      { name: 'IcSmartGrid' },
+      { name: 'ICRERA'      },
+    ],
+  },
+];
+
+const totalJournals = groups.reduce((n, g) => n + g.journals.length, 0);
+---
+
+<Section id="peer-review">
+  <SectionHeading
+    label="05 —"
+    title="Peer Review Service"
+    subtitle={`Invited as a recognised expert to review for ${totalJournals} international journals and conferences.`}
+  />
+
+  <div class="review-wrap">
+    {groups.map(group => (
+      <div class="review-group">
+
+        <!-- Publisher label column -->
+        <div class="publisher-col">
+          <span
+            class="publisher-dot"
+            style={`background:${group.dot}`}
+            aria-hidden="true"
+          />
+          <span class="publisher-name">{group.publisher}</span>
+          <span class="publisher-count">{group.journals.length}</span>
+        </div>
+
+        <!-- Journal tags -->
+        <ul class="journal-tags" role="list" aria-label={`${group.publisher} journals`}>
+          {group.journals.map(j => (
+            <li role="listitem">
+              {j.if ? (
+                /* High-impact: name + IF badge in one pill */
+                <span class="journal-tag journal-tag--hi" aria-label={`${j.name}, impact factor ${j.if}`}>
+                  {j.name}
+                  <span class="if-badge" aria-hidden="true">{j.if}</span>
+                </span>
+              ) : (
+                <span class="journal-tag">{j.name}</span>
+              )}
+            </li>
+          ))}
+        </ul>
+
+      </div>
+    ))}
+  </div>
+</Section>
+
+<style>
+  /* ── Outer wrapper ────────────────────────────────────────────────── */
+  .review-wrap {
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: rgba(19, 19, 32, 0.5);
+  }
+
+  /* ── Publisher row ────────────────────────────────────────────────── */
+  .review-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.1rem 1.4rem;
+    border-bottom: 1px solid var(--border-subtle);
+    transition: background 0.15s ease;
+  }
+  .review-group:last-child { border-bottom: none; }
+  .review-group:hover { background: rgba(255,255,255,0.018); }
+
+  @media (min-width: 640px) {
+    .review-group {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+  }
+
+  /* ── Publisher label column ───────────────────────────────────────── */
+  .publisher-col {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    /* fixed-width label column on sm+ */
+    min-width: 9rem;
+    padding-top: 0.15rem; /* optical alignment with first tag */
+  }
+
+  .publisher-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    opacity: 0.75;
+  }
+
+  .publisher-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #a0a0b0;
+    white-space: nowrap;
+  }
+
+  .publisher-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: #52526a;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 9999px;
+    padding: 0.05rem 0.4rem;
+    line-height: 1.5;
+  }
+
+  /* ── Journal tags ─────────────────────────────────────────────────── */
+  .journal-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+  }
+
+  /* Base tag */
+  .journal-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.75rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #a0a0b0;
+    background: rgba(255,255,255,0.04);
+    white-space: nowrap;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .journal-tag:hover {
+    border-color: rgba(255,255,255,0.14);
+    color: #c0c0d0;
+  }
+
+  /* High-impact variant */
+  .journal-tag--hi {
+    color: #d0d8e8;
+    border-color: rgba(0, 212, 255, 0.22);
+    background: rgba(0, 212, 255, 0.05);
+  }
+  .journal-tag--hi:hover {
+    border-color: rgba(0, 212, 255, 0.38);
+    color: #f0f0f0;
+  }
+
+  /* IF badge inside the high-impact tag */
+  .if-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #00d4ff;
+    opacity: 0.85;
+    padding: 0.05rem 0.3rem;
+    border-radius: 4px;
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(0, 212, 255, 0.18);
+  }
+</style>
