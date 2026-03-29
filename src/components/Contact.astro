@@ -3,7 +3,7 @@ import Section from './Section.astro';
 import SectionHeading from './SectionHeading.astro';
 
 /* Turnstile site key — safe to expose publicly */
-const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA'; // dummy for dev
+const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
 /* Contact Worker URL — falls back to mailto: only if genuinely unset */
 const CONTACT_FORM_URL = import.meta.env.PUBLIC_CONTACT_FORM_URL ?? 'https://contact-form.batuhanhangun.workers.dev';
 ---
