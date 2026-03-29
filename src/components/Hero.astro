@@ -211,6 +211,9 @@ const metricsApiUrl = import.meta.env.PUBLIC_METRICS_API_URL ?? '';
 
           <a
             href="/cv.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            download
             class="font-mono text-xs text-muted hover:text-cyan transition-colors tracking-wide"
           >
             CV.pdf ↗
@@ -218,20 +221,62 @@ const metricsApiUrl = import.meta.env.PUBLIC_METRICS_API_URL ?? '';
         </div>
       </div>
 
-      <!-- ── Right: profile photo ──────────────────────────────────────── -->
+      <!-- ── Right: photo + orbital background ───────────────────────── -->
       <div
         class="order-1 lg:order-2 flex items-center justify-center lg:justify-end"
         style="animation: fadeIn 0.8s ease 0.4s both"
       >
-        <div class="hero-photo-ring">
-          <Image
-            src={photo}
-            alt="Batuhan Hangün"
-            width={300}
-            height={300}
-            class="hero-photo"
-            loading="eager"
-          />
+        <div class="hero-photo-container">
+          <!-- Quantum orbital — subtle background layer behind photo -->
+          <svg
+            class="hero-orbital-bg"
+            viewBox="0 0 340 340"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <defs>
+              <filter id="node-glow" x="-120%" y="-120%" width="340%" height="340%">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <path id="o1" d="M 30,170 a 140,50 0 1,0 280,0 a 140,50 0 1,0 -280,0"/>
+              <path id="o2" d="M 42,170 a 128,45 0 1,0 256,0 a 128,45 0 1,0 -256,0"
+                    transform="rotate(55,170,170)"/>
+              <path id="o3" d="M 62,170 a 108,38 0 1,0 216,0 a 108,38 0 1,0 -216,0"
+                    transform="rotate(-40,170,170)"/>
+            </defs>
+            <use href="#o1" fill="none" stroke="rgba(0,212,255,0.18)" stroke-width="0.8"/>
+            <use href="#o2" fill="none" stroke="rgba(0,212,255,0.12)" stroke-width="0.8"/>
+            <use href="#o3" fill="none" stroke="rgba(168,85,247,0.18)" stroke-width="0.8"
+                 stroke-dasharray="4 7"/>
+            <circle r="3" fill="#00d4ff" filter="url(#node-glow)" opacity="0.7">
+              <animateMotion dur="7s" repeatCount="indefinite" calcMode="linear">
+                <mpath href="#o1"/>
+              </animateMotion>
+            </circle>
+            <circle r="2.5" fill="#00d4ff" opacity="0.45" filter="url(#node-glow)">
+              <animateMotion dur="11s" repeatCount="indefinite" begin="-4s" calcMode="linear">
+                <mpath href="#o2"/>
+              </animateMotion>
+            </circle>
+            <circle r="2.5" fill="#a855f7" opacity="0.55" filter="url(#node-glow)">
+              <animateMotion dur="9s" repeatCount="indefinite" begin="-2s" calcMode="linear">
+                <mpath href="#o3"/>
+              </animateMotion>
+            </circle>
+          </svg>
+
+          <!-- Photo on top -->
+          <div class="hero-photo-ring">
+            <Image
+              src={photo}
+              alt="Batuhan Hangün"
+              width={280}
+              height={280}
+              class="hero-photo"
+              loading="eager"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -439,8 +484,35 @@ const metricsApiUrl = import.meta.env.PUBLIC_METRICS_API_URL ?? '';
   @keyframes dotAppear  { to { opacity: 1; } }
 
   /* ── Profile photo ──────────────────────────────────────────────────────── */
+  .hero-photo-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* sized to the orbital SVG so it doesn't overflow the column */
+    width: 240px;
+    height: 240px;
+  }
+
+  @media (min-width: 768px) {
+    .hero-photo-container { width: 300px; height: 300px; }
+  }
+
+  @media (min-width: 1024px) {
+    .hero-photo-container { width: 340px; height: 340px; }
+  }
+
+  .hero-orbital-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
   .hero-photo-ring {
     position: relative;
+    z-index: 1;
     border-radius: 50%;
     padding: 3px;
     background: linear-gradient(
@@ -450,31 +522,24 @@ const metricsApiUrl = import.meta.env.PUBLIC_METRICS_API_URL ?? '';
       rgba(0, 212, 255, 0.15) 100%
     );
     box-shadow:
-      0 0 32px rgba(0, 212, 255, 0.18),
-      0 0 80px rgba(0, 212, 255, 0.07);
+      0 0 28px rgba(0, 212, 255, 0.18),
+      0 0 64px rgba(0, 212, 255, 0.07);
   }
 
   .hero-photo {
     display: block;
-    width: 180px;
-    height: 180px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     object-fit: cover;
-    /* inner dark ring to separate image from gradient border */
     box-shadow: inset 0 0 0 2px rgba(10, 10, 20, 0.6);
   }
 
   @media (min-width: 768px) {
-    .hero-photo {
-      width: 240px;
-      height: 240px;
-    }
+    .hero-photo { width: 240px; height: 240px; }
   }
 
   @media (min-width: 1024px) {
-    .hero-photo {
-      width: 300px;
-      height: 300px;
-    }
+    .hero-photo { width: 280px; height: 280px; }
   }
 </style>
