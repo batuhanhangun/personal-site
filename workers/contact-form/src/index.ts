@@ -103,7 +103,7 @@ async function sendResendNotification(
       'Authorization': `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      from:    'Contact Form <onboarding@resend.dev>',
+      from:    'Contact Form <contact@batuhanhangun.com>',
       to:      [TO_ADDRESS],
       reply_to: msg.email,
       subject: `[batuhanhangun.com] Message from ${msg.name}`,
