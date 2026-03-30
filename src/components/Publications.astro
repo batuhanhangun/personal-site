@@ -61,7 +61,13 @@ const typeLabel: Record<PubType, string> = {
   preprint:   'Preprint',
 };
 
-const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ';
+const scholarUrl    = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ';
+const metricsApiUrl = import.meta.env.PUBLIC_METRICS_API_URL ?? '';
+
+const fallback = {
+  citations: '197',
+  hIndex:    '8',
+};
 ---
 
 <Section id="publications">
@@ -147,12 +153,12 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
             <span class="scholar-stat-value">19</span> papers
           </span>
           <span class="scholar-divider" aria-hidden="true">·</span>
-          <span class="scholar-stat">
-            <span class="scholar-stat-value">197</span> citations
+          <span class="scholar-stat" data-pub-metric="citations">
+            <span class="scholar-stat-value" id="pub-stat-citations">{fallback.citations}</span> citations
           </span>
           <span class="scholar-divider" aria-hidden="true">·</span>
-          <span class="scholar-stat">
-            h-index <span class="scholar-stat-value">8</span>
+          <span class="scholar-stat" data-pub-metric="hindex">
+            h-index <span class="scholar-stat-value" id="pub-stat-hindex">{fallback.hIndex}</span>
           </span>
         </span>
       </div>
@@ -165,6 +171,60 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
     </a>
   </div>
 </Section>
+
+<div id="pub-config" data-metrics-url={metricsApiUrl} hidden aria-hidden="true"></div>
+
+<script>
+  async function loadPubMetrics(): Promise<void> {
+    const metricsApiUrl = (document.getElementById('pub-config') as HTMLElement | null)
+      ?.dataset.metricsUrl ?? '';
+
+    if (!metricsApiUrl) return;
+
+    document.querySelectorAll('[data-pub-metric]').forEach(el => {
+      el.classList.add('pub-metric--loading');
+    });
+
+    try {
+      const res = await fetch(`${metricsApiUrl}/api/metrics`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const data = await res.json() as {
+        scholar?: { citations?: number | null; h_index?: number | null };
+      };
+
+      const update = (id: string, value: number | null) => {
+        const el = document.getElementById(id);
+        if (!el || value == null) return;
+        const display = String(value);
+        if (el.textContent?.trim() === display) return;
+        el.style.transition = 'opacity 0.25s ease';
+        el.style.opacity    = '0';
+        setTimeout(() => {
+          el.textContent   = display;
+          el.style.opacity = '1';
+        }, 260);
+      };
+
+      if (data.scholar) {
+        update('pub-stat-citations', data.scholar.citations ?? null);
+        update('pub-stat-hindex',   data.scholar.h_index   ?? null);
+      }
+    } catch {
+      /* Silently keep fallback values */
+    } finally {
+      document.querySelectorAll('[data-pub-metric]').forEach(el => {
+        el.classList.remove('pub-metric--loading');
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadPubMetrics);
+  } else {
+    loadPubMetrics();
+  }
+</script>
 
 <style>
   /* ── Grid ──────────────────────────────────────────────────────────── */
@@ -370,5 +430,31 @@ const scholarUrl = 'https://scholar.google.com/citations?hl=en&user=kW1pVNEAAAAJ
   .scholar-cta:hover .scholar-arrow {
     color: var(--c-teal);
     transform: translateX(3px);
+  }
+
+  /* ── Metric loading shimmer ─────────────────────────────────────────── */
+  .pub-metric--loading .scholar-stat-value {
+    position: relative;
+    color: transparent;
+    border-radius: 0.2rem;
+    overflow: hidden;
+  }
+  .pub-metric--loading .scholar-stat-value::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      var(--c-shimmer-start) 0%,
+      var(--c-shimmer-mid)   50%,
+      var(--c-shimmer-start) 100%
+    );
+    background-size: 200% 100%;
+    animation: pub-shimmer 1.2s ease-in-out infinite;
+    border-radius: inherit;
+  }
+  @keyframes pub-shimmer {
+    0%   { background-position:  200% 0; }
+    100% { background-position: -200% 0; }
   }
 </style>
