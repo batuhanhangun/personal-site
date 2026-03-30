@@ -113,9 +113,7 @@ const CONTACT_FORM_URL   = import.meta.env.PUBLIC_CONTACT_FORM_URL   || '';
         </div>
         <div class="sidebar-info">
           <p class="sidebar-label">Email</p>
-          <a id="obfuscated-email" class="sidebar-value sidebar-link" href="#" aria-label="Send email">
-            —
-          </a>
+          <a id="contact-email" class="sidebar-value sidebar-link" href="#" aria-label="Send email"></a>
         </div>
       </div>
 
@@ -192,20 +190,14 @@ const CONTACT_FORM_URL   = import.meta.env.PUBLIC_CONTACT_FORM_URL   || '';
 <script>
   /* ── Email obfuscation ──────────────────────────────────────────────────── */
   (function () {
-    const addr = [
-      98,97,116,117,104,97,110,   // batuhan
-      64,                          // @
-      98,97,116,117,104,97,110,   // batuhan
-      104,97,110,                  // han
-      103,117,110,                 // gun
-      46,99,111,109,               // .com
-    ].map(c => String.fromCharCode(c)).join('');
-
-    const el = document.getElementById('obfuscated-email') as HTMLAnchorElement | null;
+    const u  = 'batuhan';
+    const d  = 'batuhanhangun.com';
+    const el = document.getElementById('contact-email') as HTMLAnchorElement | null;
     if (el) {
+      const addr = u + '@' + d;
       el.textContent = addr;
-      el.href        = `mailto:${addr}`;
-      el.setAttribute('aria-label', `Email ${addr}`);
+      el.href        = 'mailto:' + addr;
+      el.setAttribute('aria-label', 'Email ' + addr);
     }
   })();
 
@@ -257,8 +249,7 @@ const CONTACT_FORM_URL   = import.meta.env.PUBLIC_CONTACT_FORM_URL   || '';
     const actionUrl = form.dataset.action ?? '';
 
     if (!actionUrl) {
-      const addr = [98,97,116,117,104,97,110,64,98,97,116,117,104,97,110,104,97,110,103,117,110,46,99,111,109]
-        .map(c => String.fromCharCode(c)).join('');
+      const addr = 'batuhan' + '@' + 'batuhanhangun.com';
       const subject = encodeURIComponent(`Message from ${name}`);
       const body    = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
       window.location.href = `mailto:${addr}?subject=${subject}&body=${body}`;
