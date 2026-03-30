@@ -45,117 +45,37 @@ const socials = [
   },
 ];
 
+const interests = [
+  'Quantum Machine Learning',
+  'Machine Learning',
+  'High-Performance Computing',
+  'Parallel Computing',
+  'Computer Vision',
+  'Image Processing',
+];
+
 const metricsApiUrl = import.meta.env.PUBLIC_METRICS_API_URL ?? '';
 ---
 
 <section class="min-h-[92vh] flex items-center border-b border-[var(--border-subtle)]">
-
-  <!-- ── Main content grid ───────────────────────────────────────────────── -->
   <div class="max-w-6xl mx-auto px-6 py-24 w-full">
-    <div class="grid lg:grid-cols-[300px_1fr] gap-10 xl:gap-16 items-center">
+    <div class="hero-grid">
 
-      <!-- ── Left: photo ──────────────────────────────────────────────── -->
-      <div
-        class="order-1 flex items-center justify-center lg:justify-start"
-        style="animation: fadeIn 0.7s ease 0.2s both"
-      >
+      <!-- ── Left: photo + social icons ──────────────────────────────────── -->
+      <div class="hero-left" style="animation: fadeIn 0.7s ease 0.2s both">
         <div class="hero-photo-wrap">
           <Image
             src={photo}
             alt="Batuhan Hangün"
-            width={280}
-            height={280}
+            width={220}
+            height={220}
             quality={90}
             class="hero-photo"
             loading="eager"
           />
         </div>
-      </div>
 
-      <!-- ── Right: text ───────────────────────────────────────────────── -->
-      <div class="order-2">
-        <!-- Eyebrow -->
-        <p
-          class="font-mono text-cyan text-xs tracking-[0.2em] uppercase mb-6"
-          style="animation: fadeIn 0.6s ease 0.1s both"
-        >
-          PhD Candidate · Quantum ML · HPC &amp; AI
-        </p>
-
-        <!-- Name -->
-        <h1
-          class="font-serif text-5xl md:text-6xl xl:text-[4.25rem] text-heading leading-[1.08] mb-4"
-          style="animation: fadeInUp 0.65s ease 0.2s both"
-        >
-          Batuhan<br />Hangün
-        </h1>
-
-        <!-- Tagline -->
-        <p
-          class="text-lg md:text-xl font-medium mb-1"
-          style="color:#0d9488; animation: fadeInUp 0.65s ease 0.3s both"
-        >
-          Quantum Machine Learning Researcher
-        </p>
-        <p
-          class="text-dim text-sm md:text-base mb-8 font-mono"
-          style="animation: fadeInUp 0.65s ease 0.37s both"
-        >
-          HPC &amp; AI Engineer · PhD Candidate at Yıldız Technical University
-        </p>
-
-        <!-- ── Stats row ─────────────────────────────────────────────── -->
-        <div
-          class="grid grid-cols-3 gap-2.5 mb-2 max-w-sm"
-          style="animation: fadeInUp 0.65s ease 0.45s both"
-          id="stats-grid"
-        >
-          <div class="stat-card" data-metric-card="scholar-citations">
-            <span class="stat-value" id="stat-scholar-citations">
-              {fallback.scholarCitations}
-            </span>
-            <span class="stat-label">Citations</span>
-          </div>
-
-          <div class="stat-card" data-metric-card="h-index">
-            <span class="stat-value" id="stat-h-index">
-              {fallback.hIndex}
-            </span>
-            <span class="stat-label">h-index</span>
-          </div>
-
-          <div class="stat-card">
-            <span class="stat-value">{fallback.publications}</span>
-            <span class="stat-label">Publications</span>
-          </div>
-        </div>
-
-        <!-- Last-updated line -->
-        <p
-          class="font-mono text-[10px] tracking-wide mb-8 metrics-updated"
-          id="metrics-updated"
-          aria-live="polite"
-        ></p>
-
-        <!-- CTAs -->
-        <div
-          class="flex flex-wrap gap-3 mb-8"
-          style="animation: fadeInUp 0.65s ease 0.55s both"
-        >
-          <a href="#publications" class="btn-primary">
-            View My Work
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-          <a href="#contact" class="btn-secondary">Get in Touch</a>
-        </div>
-
-        <!-- Social links -->
-        <div
-          class="flex items-center gap-3"
-          style="animation: fadeIn 0.6s ease 0.68s both"
-        >
+        <div class="hero-socials">
           {socials.map(({ href, label, icon }) => (
             <a
               href={href}
@@ -166,37 +86,117 @@ const metricsApiUrl = import.meta.env.PUBLIC_METRICS_API_URL ?? '';
             >
               <svg
                 viewBox="0 0 24 24"
-                width="22"
-                height="22"
+                width="20"
+                height="20"
                 fill="currentColor"
                 aria-hidden="true"
                 set:html={icon}
               />
             </a>
           ))}
+        </div>
+      </div>
 
-          <span class="w-px h-6 bg-[var(--border-subtle)] mx-1" aria-hidden="true"/>
+      <!-- ── Right: text content ──────────────────────────────────────────── -->
+      <div class="hero-right">
 
-          <a
-            href="/cv.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="social-link cv-link"
-            aria-label="Download CV"
-          >
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
-                 stroke="currentColor" stroke-width="1.8"
-                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <!-- 1. Eyebrow -->
+        <p class="hero-eyebrow" style="animation: fadeIn 0.6s ease 0.1s both">
+          PhD Candidate · Yıldız Technical University
+        </p>
+
+        <!-- 2. Name -->
+        <h1 class="hero-name" style="animation: fadeInUp 0.65s ease 0.2s both">
+          Batuhan Hangün
+        </h1>
+
+        <!-- 3. Title -->
+        <p class="hero-title" style="animation: fadeInUp 0.65s ease 0.3s both">
+          Quantum Machine Learning Researcher
+        </p>
+
+        <!-- 4. About paragraphs -->
+        <div class="hero-bio" style="animation: fadeInUp 0.65s ease 0.35s both">
+          <p>
+            I am a researcher and engineer working at the intersection of quantum
+            computing, machine learning, and high-performance computing. Currently
+            pursuing my PhD in Computer Engineering at Yıldız Technical University,
+            my research focuses on developing hybrid classical-quantum neural network
+            architectures for renewable energy and smart grid applications.
+          </p>
+          <p>
+            Beyond academia, I bring hands-on industry experience in computer vision
+            systems, 3D scanning SDK development in C++, and digital twin research
+            through international collaborations spanning Turkey, Germany, and Canada.
+            I have also taught parallel computing and AI/ML courses across multiple
+            universities.
+          </p>
+          <p>
+            My work has been recognised with a competitive <strong>NERSC</strong>{' '}
+            Director&apos;s Discretionary Reserve allocation on the{' '}
+            <strong>Perlmutter supercomputer</strong> at{' '}
+            <strong>Lawrence Berkeley National Laboratory</strong>{' '}
+            (<strong>U.S. Department of Energy</strong>), where I run quantum machine
+            learning experiments at scale. I serve as a peer reviewer for{' '}
+            <strong>16+ international journals</strong> and conferences, including{' '}
+            <em>Information Fusion</em>, <em>Engineering Applications of AI</em>,{' '}
+            <em>Energy</em>, and <em>IEEE Robotics and Automation Letters</em>.
+          </p>
+        </div>
+
+        <!-- 5. Research interest tags -->
+        <div class="hero-interests" style="animation: fadeInUp 0.65s ease 0.4s both">
+          {interests.map(tag => (
+            <span class="interest-tag">{tag}</span>
+          ))}
+        </div>
+
+        <!-- 6. Scholar metrics inline -->
+        <div class="hero-metrics" style="animation: fadeInUp 0.65s ease 0.47s both">
+          <span class="metric-item" data-metric-card="scholar-citations">
+            <span class="stat-value" id="stat-scholar-citations">{fallback.scholarCitations}</span>
+            <span class="metric-label">citations</span>
+          </span>
+          <span class="metric-sep" aria-hidden="true">|</span>
+          <span class="metric-item" data-metric-card="h-index">
+            <span class="stat-value" id="stat-h-index">{fallback.hIndex}</span>
+            <span class="metric-label">h-index</span>
+          </span>
+          <span class="metric-sep" aria-hidden="true">|</span>
+          <span class="metric-item">
+            <span class="stat-value">{fallback.publications}</span>
+            <span class="metric-label">publications</span>
+          </span>
+        </div>
+        <p
+          class="font-mono text-[10px] tracking-wide mb-6 metrics-updated"
+          id="metrics-updated"
+          aria-live="polite"
+        ></p>
+
+        <!-- 7. CTA buttons -->
+        <div class="hero-ctas" style="animation: fadeInUp 0.65s ease 0.55s both">
+          <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" class="btn-primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
             </svg>
-            <span class="cv-label">CV</span>
+            CV
+          </a>
+          <a href="#contact" class="btn-primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <polyline points="2 4 12 13 22 4"/>
+            </svg>
+            Get in Touch
           </a>
         </div>
+
       </div>
     </div>
   </div>
-
 </section>
 
 <div id="hero-config" data-metrics-url={metricsApiUrl} hidden aria-hidden="true"></div>
@@ -280,38 +280,79 @@ const metricsApiUrl = import.meta.env.PUBLIC_METRICS_API_URL ?? '';
 </script>
 
 <style>
+  /* ── Two-column grid ─────────────────────────────────────────────────────── */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-grid {
+      grid-template-columns: 220px 1fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+  }
+
+  /* ── Left column ─────────────────────────────────────────────────────────── */
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-left {
+      align-items: flex-start;
+      position: sticky;
+      top: 5rem;
+    }
+  }
+
   /* ── Photo ──────────────────────────────────────────────────────────────── */
   .hero-photo-wrap {
     border-radius: 1rem;
     overflow: hidden;
-    box-shadow: var(--c-shadow-photo);
+    box-shadow: 0 8px 32px rgba(120, 80, 20, 0.18), 0 2px 8px rgba(0,0,0,0.18);
     background: var(--c-surface);
     flex-shrink: 0;
   }
 
+  html.dark .hero-photo-wrap {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.3);
+  }
+
   .hero-photo {
     display: block;
-    width: 240px;
-    height: 240px;
+    width: 200px;
+    height: 200px;
     object-fit: cover;
     border-radius: inherit;
   }
 
-  @media (min-width: 768px) {
-    .hero-photo { width: 260px; height: 260px; }
-  }
-
   @media (min-width: 1024px) {
-    .hero-photo { width: 280px; height: 280px; }
+    .hero-photo {
+      width: 220px;
+      height: 220px;
+    }
   }
 
-  /* ── Social link ────────────────────────────────────────────────────────── */
+  /* ── Social icons row ───────────────────────────────────────────────────── */
+  .hero-socials {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
   .social-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2.6rem;
-    height: 2.6rem;
+    width: 2.4rem;
+    height: 2.4rem;
     border-radius: 0.5rem;
     color: var(--c-muted);
     border: 1px solid var(--border-subtle);
@@ -323,25 +364,141 @@ const metricsApiUrl = import.meta.env.PUBLIC_METRICS_API_URL ?? '';
     background-color: var(--c-teal-bg);
   }
 
-  .cv-link {
-    width: auto;
-    padding: 0 0.75rem;
-    gap: 0.35rem;
+  /* ── Right column ────────────────────────────────────────────────────────── */
+  .hero-right {
+    display: flex;
+    flex-direction: column;
   }
 
-  .cv-label {
+  /* ── 1. Eyebrow ─────────────────────────────────────────────────────────── */
+  .hero-eyebrow {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    color: var(--c-muted);
+    margin-bottom: 0.6rem;
   }
 
-  /* ── Stat sub-label ─────────────────────────────────────────────────────── */
-  .stat-source {
-    display: block;
-    font-size: 0.65em;
-    opacity: 0.7;
-    margin-top: 0.05em;
+  /* ── 2. Name ────────────────────────────────────────────────────────────── */
+  .hero-name {
+    font-family: var(--font-serif, Georgia, serif);
+    font-size: clamp(2.4rem, 5vw, 3.5rem);
+    font-weight: 700;
+    color: var(--c-head);
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── 3. Title ───────────────────────────────────────────────────────────── */
+  .hero-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--c-teal);
+    margin-bottom: 1.25rem;
+  }
+
+  /* ── 4. Bio ─────────────────────────────────────────────────────────────── */
+  .hero-bio {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--c-body);
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-bio p {
+    margin: 0;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .hero-bio strong {
+    color: var(--c-head);
+    font-weight: 600;
+  }
+
+  .hero-bio em {
+    font-style: italic;
+    color: var(--c-head);
+  }
+
+  /* ── 5. Interest tags ───────────────────────────────────────────────────── */
+  .hero-interests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .interest-tag {
+    font-size: 0.7rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: var(--c-muted);
+    background: var(--c-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    padding: 0.2rem 0.65rem;
+    white-space: nowrap;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .interest-tag:hover {
+    color: var(--c-teal);
+    border-color: var(--c-border-teal-h);
+  }
+
+  /* ── 6. Metrics inline ──────────────────────────────────────────────────── */
+  .hero-metrics {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.25rem;
+    flex-wrap: wrap;
+  }
+
+  .metric-item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.3rem;
+  }
+
+  .stat-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--c-head);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .metric-label {
+    font-size: 0.78rem;
+    color: var(--c-muted);
+  }
+
+  .metric-sep {
+    color: var(--border-subtle);
+    font-size: 0.85rem;
+    user-select: none;
+  }
+
+  /* ── 7. CTAs ────────────────────────────────────────────────────────────── */
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  /* ── Last-updated timestamp ─────────────────────────────────────────────── */
+  .metrics-updated {
+    color: transparent;
+    min-height: 1em;
+  }
+  .metrics-updated--visible {
+    color: var(--c-faint);
+    transition: color 0.4s ease;
   }
 
   /* ── Loading shimmer ────────────────────────────────────────────────────── */
@@ -368,15 +525,5 @@ const metricsApiUrl = import.meta.env.PUBLIC_METRICS_API_URL ?? '';
   @keyframes shimmer {
     0%   { background-position:  200% 0; }
     100% { background-position: -200% 0; }
-  }
-
-  /* ── Last-updated timestamp ─────────────────────────────────────────────── */
-  .metrics-updated {
-    color: transparent;
-    min-height: 1em;
-  }
-  .metrics-updated--visible {
-    color: var(--c-faint);
-    transition: color 0.4s ease;
   }
 </style>
