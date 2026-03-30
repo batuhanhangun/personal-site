@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://batuhanhangun.com/sitemap.xml
+Sitemap: https://batuhanhangun.com/sitemap-index.xml

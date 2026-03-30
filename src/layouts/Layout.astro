@@ -36,6 +36,7 @@ const personSchema = {
     name:    'Yıldız Technical University',
   },
   description: 'Quantum Machine Learning Researcher and HPC/AI Engineer',
+  image:       `${siteUrl}/og-image.png`,
   knowsAbout: [
     'Quantum Machine Learning',
     'Quantum Computing',
@@ -68,7 +69,7 @@ const personSchema = {
     <meta name="author"      content="Batuhan Hangün" />
     <meta name="robots"      content="index, follow, max-image-preview:large" />
     <link rel="canonical"    href={canonicalUrl} />
-    <link rel="sitemap"      type="application/xml" href="/sitemap.xml" />
+    <link rel="sitemap"      type="application/xml" href="/sitemap-index.xml" />
 
     <!-- ── Open Graph ───────────────────────────────────────────────────── -->
     <meta property="og:type"        content="website" />
@@ -95,7 +96,8 @@ const personSchema = {
     <link rel="icon" href="/favicon.ico" />
 
     <!-- ── Theme / PWA ──────────────────────────────────────────────────── -->
-    <meta name="theme-color" content="#ede9e4" />
+    <meta name="theme-color" content="#ede9e4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1C1B19" media="(prefers-color-scheme: dark)" />
 
     <!-- ── Theme init: must run before paint to prevent FOUC ───────────────── -->
     <script is:inline>
