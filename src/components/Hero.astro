@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import photo    from '../assets/photo.jpg';
+import photo    from '../assets/photo.png';
 
 /**
  * Hardcoded fallback values — shown immediately (no layout shift).
@@ -316,13 +316,14 @@ const metricsApiUrl = import.meta.env.PUBLIC_METRICS_API_URL ?? '';
   .hero-photo-wrap {
     border-radius: 1rem;
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(120, 80, 20, 0.18), 0 2px 8px rgba(0,0,0,0.18);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10), 0 1px 4px rgba(28, 25, 23, 0.06);
     background: var(--c-surface);
     flex-shrink: 0;
   }
 
   html.dark .hero-photo-wrap {
-    box-shadow: 0 8px 32px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 28px rgba(0, 0, 0, 0.45), 0 1px 4px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.09);
   }
 
   .hero-photo {

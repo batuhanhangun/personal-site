@@ -99,8 +99,8 @@
 @media (prefers-color-scheme: dark) {
   html:not(.light) {
     /* Override @theme-generated Tailwind tokens so utilities auto-adapt */
-    --color-bg:      #1c1b19;
-    --color-surface: #161514;
+    --color-bg:      #1e1d1a;
+    --color-surface: #181714;
     --color-card:    #252422;
     --color-heading: #f0ede8;
     --color-dim:     #b8b4ae;
@@ -113,8 +113,8 @@
     --glow-teal:             rgba(20, 184, 166, 0.10);
 
     /* Surface colors */
-    --c-bg:                  #1c1b19;
-    --c-surface:             #161514;
+    --c-bg:                  #1e1d1a;
+    --c-surface:             #181714;
     --c-card:                #252422;
     --c-inset:               #2a2926;
     --c-input:               #2a2926;
@@ -164,8 +164,8 @@
     --c-shimmer-mid:         rgba(255, 255, 255, 0.07);
 
     /* Navbar */
-    --c-nav-bg:              rgba(28, 27, 25, 0.92);
-    --c-nav-scrolled:        rgba(28, 27, 25, 0.98);
+    --c-nav-bg:              rgba(30, 29, 26, 0.92);
+    --c-nav-scrolled:        rgba(30, 29, 26, 0.98);
     --c-nav-shadow:          rgba(0, 0, 0, 0.20);
 
     /* Scroll-to-top button */
@@ -175,8 +175,8 @@
 
 /* User explicitly chose dark via the toggle button */
 html.dark {
-  --color-bg:      #1c1b19;
-  --color-surface: #161514;
+  --color-bg:      #1e1d1a;
+  --color-surface: #181714;
   --color-card:    #252422;
   --color-heading: #f0ede8;
   --color-dim:     #b8b4ae;
@@ -187,8 +187,8 @@ html.dark {
   --border-accent:         rgba(20, 184, 166, 0.35);
   --glow-teal:             rgba(20, 184, 166, 0.10);
 
-  --c-bg:                  #1c1b19;
-  --c-surface:             #161514;
+  --c-bg:                  #1e1d1a;
+  --c-surface:             #181714;
   --c-card:                #252422;
   --c-inset:               #2a2926;
   --c-input:               #2a2926;
@@ -230,8 +230,8 @@ html.dark {
   --c-shimmer-start:       rgba(255, 255, 255, 0.03);
   --c-shimmer-mid:         rgba(255, 255, 255, 0.07);
 
-  --c-nav-bg:              rgba(28, 27, 25, 0.92);
-  --c-nav-scrolled:        rgba(28, 27, 25, 0.98);
+  --c-nav-bg:              rgba(30, 29, 26, 0.92);
+  --c-nav-scrolled:        rgba(30, 29, 26, 0.98);
   --c-nav-shadow:          rgba(0, 0, 0, 0.20);
 
   --c-scroll-btn-bg:       rgba(50, 48, 46, 0.95);
