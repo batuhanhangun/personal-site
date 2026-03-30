@@ -189,15 +189,17 @@ const CONTACT_FORM_URL   = import.meta.env.PUBLIC_CONTACT_FORM_URL   || '';
 
 <script>
   /* ── Email obfuscation ──────────────────────────────────────────────────── */
+  // String.fromCharCode(64) = '@' — prevents esbuild constant-folding into plain text
+  const _eu = 'batuhan';
+  const _ed = 'batuhanhangun.com';
+  const _ea = _eu + String.fromCharCode(64) + _ed;
+
   (function () {
-    const u  = 'batuhan';
-    const d  = 'batuhanhangun.com';
     const el = document.getElementById('contact-email') as HTMLAnchorElement | null;
     if (el) {
-      const addr = u + '@' + d;
-      el.textContent = addr;
-      el.href        = 'mailto:' + addr;
-      el.setAttribute('aria-label', 'Email ' + addr);
+      el.textContent = _ea;
+      el.href        = 'mailto:' + _ea;
+      el.setAttribute('aria-label', 'Email ' + _ea);
     }
   })();
 
@@ -249,7 +251,7 @@ const CONTACT_FORM_URL   = import.meta.env.PUBLIC_CONTACT_FORM_URL   || '';
     const actionUrl = form.dataset.action ?? '';
 
     if (!actionUrl) {
-      const addr = 'batuhan' + '@' + 'batuhanhangun.com';
+      const addr = _ea;
       const subject = encodeURIComponent(`Message from ${name}`);
       const body    = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
       window.location.href = `mailto:${addr}?subject=${subject}&body=${body}`;
