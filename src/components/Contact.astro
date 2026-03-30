@@ -73,15 +73,19 @@ const CONTACT_FORM_URL   = import.meta.env.PUBLIC_CONTACT_FORM_URL   || '';
         </div>
 
         <!-- Turnstile widget -->
-        <div
-          class="cf-turnstile"
-          data-sitekey={TURNSTILE_SITE_KEY}
-          data-theme="auto"
-          data-callback="onTurnstileVerified"
-          data-expired-callback="onTurnstileExpired"
-          data-error-callback="onTurnstileExpired"
-          id="turnstile-widget"
-        ></div>
+        <div class="turnstile-wrap">
+          <label class="turnstile-label">Please verify you are human</label>
+          <div
+            class="cf-turnstile"
+            data-sitekey={TURNSTILE_SITE_KEY}
+            data-theme="auto"
+            data-appearance="always"
+            data-callback="onTurnstileVerified"
+            data-expired-callback="onTurnstileExpired"
+            data-error-callback="onTurnstileExpired"
+            id="turnstile-widget"
+          ></div>
+        </div>
 
         <!-- Submit -->
         <button type="submit" class="btn-submit" id="submit-btn" disabled>
@@ -375,6 +379,19 @@ const CONTACT_FORM_URL   = import.meta.env.PUBLIC_CONTACT_FORM_URL   || '';
     font-size: 0.72rem;
     color: #ef4444;
     min-height: 1em;
+  }
+
+  /* ── Turnstile wrapper ───────────────────────────────────────────────── */
+  .turnstile-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .turnstile-label {
+    font-size: 0.75rem;
+    color: var(--c-muted);
+    letter-spacing: 0.02em;
   }
 
   /* ── Submit button ───────────────────────────────────────────────────── */
