@@ -6,165 +6,67 @@ import SectionHeading from './SectionHeading.astro';
 <Section id="about">
   <SectionHeading title="About" />
 
-  <div class="about-grid">
+  <div class="about-prose" data-fade-in>
 
-    <!-- ── Bio text ──────────────────────────────────────────────────────── -->
-    <div class="bio-prose">
-      <p>
-        I am a researcher and engineer working at the intersection of{' '}
-        <strong>quantum computing, machine learning, and high-performance computing</strong>.
-        Currently pursuing my{' '}
-        <em>PhD in Computer Engineering at Yıldız Technical University</em>, my research focuses
-        on developing <strong>hybrid classical-quantum neural network architectures</strong>{' '}
-        for renewable energy and smart grid applications.
-      </p>
+    <p>
+      I am a researcher and engineer working at the intersection of quantum
+      computing, machine learning, and high-performance computing. Currently
+      pursuing my PhD in Computer Engineering at Yıldız Technical University,
+      my research focuses on developing <strong>hybrid classical-quantum neural
+      network architectures</strong> for renewable energy and smart grid applications.
+    </p>
 
-      <p>
-        My work has been recognised with a competitive{' '}
-        <strong>NERSC Director's Discretionary Reserve allocation</strong> on the{' '}
-        <strong>Perlmutter supercomputer</strong> at{' '}
-        Lawrence Berkeley National Laboratory (U.S. Department of Energy), where I run{' '}
-        quantum machine learning experiments at scale.
-      </p>
+    <p>
+      Beyond academia, I bring hands-on industry experience in <strong>computer
+      vision systems</strong>, <strong>3D scanning SDK development in C++</strong>,
+      and <strong>digital twin research</strong> through international collaborations
+      spanning Turkey, Germany, and Canada. I have also taught parallel computing
+      and AI/ML courses across multiple universities.
+    </p>
 
-      <p>
-        I serve as a peer reviewer for <strong>16+ international journals and conferences</strong>,
-        including <em>Information Fusion</em>, <em>Engineering Applications of AI</em>,{' '}
-        <em>Energy</em>, and <em>IEEE Robotics and Automation Letters</em>.
-      </p>
+    <p>
+      My work has been recognised with a competitive{' '}
+      <strong>NERSC Director&apos;s Discretionary Reserve allocation</strong> on the{' '}
+      <strong>Perlmutter supercomputer</strong> at{' '}
+      <strong>Lawrence Berkeley National Laboratory</strong>{' '}
+      (<strong>U.S. Department of Energy</strong>), where I run quantum machine
+      learning experiments at scale.
+    </p>
 
-      <div class="about-actions">
-        <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" download class="btn-primary">
-          Download CV
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-        </a>
-        <a href="#contact" class="btn-secondary">Get in Touch</a>
-      </div>
-    </div>
-
-    <!-- ── Quick facts ────────────────────────────────────────────────────── -->
-    <aside class="about-facts" aria-label="Quick facts">
-
-      <div class="fact-item">
-        <span class="fact-label">Affiliation</span>
-        <span class="fact-value">Yıldız Technical University</span>
-        <span class="fact-sub">PhD Candidate, Computer Engineering</span>
-      </div>
-
-      <div class="fact-item">
-        <span class="fact-label">HPC Resources</span>
-        <span class="fact-value">NERSC Perlmutter</span>
-        <span class="fact-sub">Director's Discretionary Allocation · U.S. Dept. of Energy</span>
-      </div>
-
-      <div class="fact-item">
-        <span class="fact-label">Peer Review</span>
-        <span class="fact-value">16+ Journals &amp; Conferences</span>
-        <span class="fact-sub">Elsevier · IEEE · Springer Nature</span>
-      </div>
-
-      <div class="fact-item">
-        <span class="fact-label">Location</span>
-        <span class="fact-value">Istanbul, Turkey 🇹🇷</span>
-      </div>
-
-    </aside>
+    <p>
+      I serve as a peer reviewer for <strong>16+ international journals and
+      conferences</strong>, including <em>Information Fusion</em>,{' '}
+      <em>Engineering Applications of Artificial Intelligence</em>,{' '}
+      <em>Energy</em>, and <em>IEEE Robotics and Automation Letters</em>.
+    </p>
 
   </div>
 </Section>
 
 <style>
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-
-  @media (min-width: 768px) {
-    .about-grid {
-      grid-template-columns: 1fr 280px;
-      gap: 4rem;
-      align-items: start;
-    }
-  }
-
-  /* ── Bio prose ────────────────────────────────────────────────────────── */
-  .bio-prose {
+  .about-prose {
     display: flex;
     flex-direction: column;
     gap: 1.4rem;
+    max-width: 72ch;
     font-size: 1.05rem;
     line-height: 1.85;
     color: var(--c-body);
   }
 
-  .bio-prose p {
+  .about-prose p {
     margin: 0;
     text-align: justify;
     hyphens: auto;
   }
 
-  .bio-prose strong {
+  .about-prose strong {
     color: var(--c-head);
     font-weight: 600;
   }
 
-  .bio-prose em {
+  .about-prose em {
     font-style: italic;
     color: var(--c-head);
-  }
-
-  .about-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    padding-top: 0.5rem;
-  }
-
-  /* ── Quick facts ──────────────────────────────────────────────────────── */
-  .about-facts {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    border: 1px solid var(--border-subtle);
-    border-radius: 0.75rem;
-    overflow: hidden;
-    background: var(--c-card);
-  }
-
-  .fact-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-    padding: 1rem 1.25rem;
-    border-bottom: 1px solid var(--border-subtle);
-  }
-  .fact-item:last-child {
-    border-bottom: none;
-  }
-
-  .fact-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--c-muted);
-  }
-
-  .fact-value {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--c-head);
-    line-height: 1.3;
-  }
-
-  .fact-sub {
-    font-size: 0.78rem;
-    color: var(--c-muted);
-    line-height: 1.4;
   }
 </style>
